@@ -1,0 +1,105 @@
+{{define "listtemplate"}}
+
+<div id="header" class="navbar navbar-left" id="navbar">
+    {{ if eq .Info.IsAdmin "Yes" }}
+        <a href="/" class="btn btn-md btn-danger">Home</a>
+        <a href="/orderlist" class="btn btn-md btn-success ">Orders</a>
+        <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
+        <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
+        <a href="/showcache" class="btn btn-md btn-success ">Show Cache</a>
+        <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
+    {{ else }}
+        <a href="/" class="btn btn-md btn-success ">Home</a>
+        <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
+        <a href="/orderlist" class="btn btn-md btn-success">Orders</a>
+        <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
+    {{ end }}
+
+
+    </div>
+<p/>
+
+<h3>{{ .Info.Name }} - {{ .Info.UserName }}</h3>
+
+<br>Email - User ID:<br>
+<label for="userID" id="userID" class="btn btn-md btn-success" >{{ .Info.UserID }}</label>
+<br>Order Name:<br>
+<input type="text" id="orderClientName" name="orderClientName" value="" onblur="getdatetime()" required placeholder="Name for the order">
+<br>Date:<br>
+<input type="date" id="orderDate" name="orderDate" value="" readonly>
+<br>Time:<br>
+<input type="text" id="orderTime" name="orderTime" value="" readonly>
+<br> Status:<br>
+<input type="text" id="status" name="status" value="Not Placed" class="btn btn-md btn-success">
+
+<!-- <br> Delivery, Pick-up or Eat-in:<br>
+<select name="EatMode" id="EatMode" value="Eatin" readonly>
+    <option value="Eatin">Eat-in</option>
+    <option value="Delivery">Delivery</option>
+    <option value="Takeaway">Take away</option>
+</select>
+<br> -->
+
+<h2>Select your options below:</h2>
+<select name="pratoname" id="pratoname">
+        {{range .Pratos }}
+            <option value={{.Name}}>{{ .Name }} - {{ .Price }}</option>
+        {{end}}
+        </select>
+
+<select name="pratoqtd" id="pratoqtd">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+        </select>
+<br><br>
+
+
+<button onclick="addNewItem() ">Add</button>
+<!-- <button onclick="removeSelectedRows() ">Remove Item</button> -->
+<button onclick="newOrder() ">New Order</button>
+
+<p/>
+<br>Order Number:<br>
+<input type="text" id="orderID" name="orderID" readonly class="btn btn-md btn-success">
+<p/>
+
+<div style="float:left;" class="table-responsive">
+
+<table id="myTable" class="table table-striped table-bordered">
+    <tr>
+        <th>Action</th>
+        <th>Dish</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+    </tr>
+</table>
+
+</div>
+
+<table></table>
+
+<button onclick="saveOrder() ">Place Order</button>
+<!-- <button onclick="saveOrder2() ">Place Order</button> -->
+
+
+<p/>
+
+<br> Message:<br>
+<textarea rows="4" cols="50" id="message">
+</textarea>
+
+
+<p/>
+{{range .Pratos }}
+<input type="hidden" id="{{ .Name }}" value="{{ .Price }}">
+{{end}}
+
+<p/> {{end}}

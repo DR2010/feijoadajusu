@@ -1,0 +1,30 @@
+[Unit]
+Description=Festa Junina DISHES microservice
+ConditionPathExists=/home/daniel/golang/src/fjapidishes
+After=network.target
+
+[Service]
+Type=simple
+User=
+Group=
+LimitNOFILE=1024
+
+Restart=on-failure
+RestartSec=10
+startLimitIntervalSec=60
+
+WorkingDirectory=/home/daniel/golang/src/fjapidishes
+ExecStart=/home/daniel/golang/src/fjapidishes/fjapidishes
+
+# make sure log directory exists and owned by syslog
+PermissionsStartOnly=true
+ExecStartPre=/bin/mkdir -p /var/log/restapidishesX
+ExecStartPre=/bin/chown syslog:adm /var/log/restapidishesX
+ExecStartPre=/bin/chmod 755 /var/log/restapidishesX
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=fjapidishes
+
+[Install]
+WantedBy=multi-user.target
+

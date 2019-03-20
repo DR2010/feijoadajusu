@@ -1,0 +1,38 @@
+{{ define "pagebodytemplate" }}
+
+<div id="header" class="navbar navbar-left" id="navbar">
+    <a href="/" class="btn btn-md btn-danger ">Home</a>
+    <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
+    <a href="/orderlist" class="btn btn-md btn-success">Orders</a>
+    <a href="/instructions" class="btn btn-md btn-success">Instructions</a>
+
+    {{ if eq .Info.Application "Restaurante" }}
+        {{ if eq .Info.IsAdmin "Yes" }}
+        <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
+        <a href="/userrolesshowpage" class="btn btn-md btn-success ">User Roles</a>
+        <a href="/saveordertosqlX" class="btn btn-md btn-success">Save to MySQL</a>
+        {{ end }}
+    {{end}}
+
+</div>
+
+<h3>Welcome, {{ .Info.Name }}.</h3>
+
+<div>
+    <img src="images/Feijusu.jpg" width="500">
+</div>
+
+<h2>Organisation: {{ .Info.Organisation }}.</h2>
+<h2>Database: {{ .Info.Database }}.</h2>
+
+<p/> 
+
+<form action="Submit" method="POST" />
+</form>
+
+<div id="header" class="navbar navbar-right" id="navbar">
+    <a href="/login" class="btn btn-md btn-warning ">Login</a> 
+    <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
+</div>
+
+{{end}}

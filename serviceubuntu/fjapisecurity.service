@@ -1,0 +1,30 @@
+[Unit]
+Description=Festa Junina SECURITY microservice
+ConditionPathExists=/home/daniel/golang/runtime/festajunina/fjapisecurity
+After=network.target
+
+[Service]
+Type=simple
+User=
+Group=
+LimitNOFILE=1024
+
+Restart=on-failure
+RestartSec=10
+startLimitIntervalSec=60
+
+WorkingDirectory=/home/daniel/golang/runtime/festajunina/fjapisecurity
+ExecStart=/home/daniel/golang/runtime/festajunina/fjapisecurity/fjapisecurity
+
+# make sure log directory exists and owned by syslog
+PermissionsStartOnly=true
+ExecStartPre=/bin/mkdir -p /var/log/fjapisecurity
+ExecStartPre=/bin/chown syslog:adm /var/log/fjapisecurity
+ExecStartPre=/bin/chmod 755 /var/log/fjapisecurity
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=fjapisecurity
+
+[Install]
+WantedBy=multi-user.target
+

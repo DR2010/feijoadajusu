@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <title>D# WebSite</title>
+
+    <meta id="meta" name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/taskman.css" />
+    <link rel="stylesheet" type="text/css" href="css/festajunina.css" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700" rel="stylesheet" type="text/css">
+    <link rel="icon" href="images/festa-junina.jpg">
+</head>
+
+<body ng-controller="tasksController" background="festa-junina.jpg">
+    
+    <div id="header" class="navbar navbar-left" id="navbar">
+        <a href="/" class="btn btn-md btn-success">Home</a>
+    </div>
+    <h2>Festa Junina - Login Page</h2>
+
+    <form method="POST" action="/login">
+        Email Address:
+        <p/>
+        <input type="text" name="userid" placeholder="Email Address">
+        <p/> Password:
+        <p/>
+        <input type="password" name="password" placeholder="password">
+        <p/>
+        <input type="submit" value="Login" class="btn btn-md btn-success">
+        <p/>
+    </form>
+
+   
+    <p>NEW USERS: Register please.</p>
+    <a href="/signup" class="btn btn-md btn-success">New User</a>
+    <a href="/forgotpassword" class="btn btn-md btn-success">Forgot Password</a>
+    <a href="/instructions" class="btn btn-md btn-success">Instructions</a>
+
+    {{ template "messagetemplate" . }}
+
+    <script type="text/javascript" src="js/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/restauranteui.js"></script>
+
+</body>
+
+</html>

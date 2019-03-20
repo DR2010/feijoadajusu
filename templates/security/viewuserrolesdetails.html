@@ -1,0 +1,55 @@
+{{ define "viewuserrolesdetails" }}
+    <div id="header" class="navbar navbar-left" id="navbar">
+        <a href="/" class="btn btn-md btn-success">Home</a>
+    </div>
+    <h2>User Roles</h2>
+
+    Email Address:
+    <p/>
+    <input type="email" id="username" name="username" placeholder="Email address" >
+    <p/> 
+    <button onclick="getUserDetails() ">Get User Details</button>
+
+    <h3>User Details</h3>
+
+    <p/>Is Administrator:
+    <p/>
+    <input type="text" id="isadmin" name="isadmin" placeholder="Is Admin Y or N" value={{ .Info.IsAdmin }}>
+    <p/> Application ID:
+    <p/>
+    <input type="text" id="applicationid" name="applicationid" placeholder="Application ID" value={{ .Info.ApplicationID }}>
+    <p/> User Status:
+    <p/>
+    <select name="status" id="status">
+        <option value="Select...">Select</option>
+        <option value="ACTIVE">ACTIVE</option>
+        <option value="INACTIVE">INACTIVE</option>
+    </select>
+    <br>
+
+    <br> User Type:<br>
+    <p/>
+    <select name="usertype" id="usertype">
+        <option value="Select...">Select</option>
+        <option value="BASIC">BASIC</option>
+        <option value="ADMIN">ADMIN</option>
+    </select>
+    <br>
+
+    <p/>
+    <button onclick="updateUserRoles()">Submit</button>
+
+    <p/>
+    <p/>
+    <input type="text" id="message" name="message" value={{ .Info.Message }}>
+    <p/>
+
+    <script type="text/javascript" src="js/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/restauranteui.js"></script>
+    <script type="text/javascript" src="js/danbtcmarkets.js"></script>
+    <script type="text/javascript" src="js/fjsecurity.js"></script>
+
+</body>
+
+{{ end }}

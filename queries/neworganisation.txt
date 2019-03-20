@@ -1,0 +1,11 @@
+
+
+== criar novo database
+use NewOrganisationDBName
+== isso cria mas nao mostra o database enquanto o primeiro documento nao e' criado
+
+== export a seguranca de um para outro, ai' da' para fazer o login mas tem que limpar depois os usuarios inuteis.
+mongoexport --db restaurante --collection security --out sec.json
+
+== Importar os usuarios no novo banco and it is all good!
+mongoimport --db TheHouseOfThePath --collection security --file sec.json

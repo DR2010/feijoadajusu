@@ -1,0 +1,30 @@
+[Unit]
+Description=Festa Junina ORDERS microservice
+ConditionPathExists=/home/daniel/golang/src/fjapimain
+After=network.target
+
+[Service]
+Type=simple
+User=
+Group=
+LimitNOFILE=1024
+
+Restart=on-failure
+RestartSec=10
+startLimitIntervalSec=60
+
+WorkingDirectory=/home/daniel/golang/src/fjapimain
+ExecStart=/home/daniel/golang/src/fjapimain/fjapimain
+
+# make sure log directory exists and owned by syslog
+PermissionsStartOnly=true
+ExecStartPre=/bin/mkdir -p /var/log/restapimainX
+ExecStartPre=/bin/chown syslog:adm /var/log/restapimainX
+ExecStartPre=/bin/chmod 755 /var/log/restapimainX
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=fjapimain
+
+[Install]
+WantedBy=multi-user.target
+
