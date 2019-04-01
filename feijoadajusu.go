@@ -28,6 +28,7 @@ import (
 	"log"
 	"net/http"
 	// The Models are shared by WEB and API
+	activitieshandler "feijoadajusu/areas/activitieshandler"
 	disheshandler "feijoadajusu/areas/disheshandler"
 	helper "feijoadajusu/areas/helper"
 	dishes "feijoadajusu/models"
@@ -137,6 +138,7 @@ func loadreferencedatainredis() {
 
 	err = redisclient.Set(sysid+"MSAPImainIPAddress", variable.MSAPImainIPAddress, 0).Err()
 	err = redisclient.Set(sysid+"MSAPIdishesIPAddress", variable.MSAPIdishesIPAddress, 0).Err()
+	err = redisclient.Set(sysid+"MSAPIactivitiesIPAddress", variable.MSAPIactivitiesIPAddress, 0).Err()
 	err = redisclient.Set(sysid+"MSAPIordersIPAddress", variable.MSAPIordersIPAddress, 0).Err()
 	err = redisclient.Set(sysid+"SecurityMicroservice", variable.SecurityMicroservice, 0).Err()
 	err = redisclient.Set(sysid+"SecurityMicroserviceURL", variable.SecurityMicroserviceURL, 0).Err()
@@ -144,6 +146,7 @@ func loadreferencedatainredis() {
 	err = redisclient.Set(sysid+"MSAPImainPort", variable.MSAPImainPort, 0).Err()
 	err = redisclient.Set(sysid+"MSAPIdishesPort", variable.MSAPIdishesPort, 0).Err()
 	err = redisclient.Set(sysid+"MSAPIordersPort", variable.MSAPIordersPort, 0).Err()
+	err = redisclient.Set(sysid+"MSAPIactivitiesPort", variable.MSAPIactivitiesPort, 0).Err()
 }
 
 func root(httpwriter http.ResponseWriter, req *http.Request) {
@@ -233,10 +236,6 @@ func saveordertosql(httpwriter http.ResponseWriter, req *http.Request) {
 	ordershandler.SaveOrderToMySQL(httpwriter, redisclient, credentials, req, sysid)
 
 }
-
-// ----------------
-// Anonymous
-// ----------------
 
 func orderlist(httpwriter http.ResponseWriter, req *http.Request) {
 
@@ -432,6 +431,31 @@ func orderStartServing(httpwriter http.ResponseWriter, req *http.Request) {
 		return
 	}
 	ordershandler.StartServing(httpwriter, req, redisclient, sysid)
+}
+
+// ----------------------------------------------------------
+// Activities section
+// ----------------------------------------------------------
+func activitylist(httpwriter http.ResponseWriter, req *http.Request) {
+
+	error, credentials := security.ValidateTokenV2(redisclient, req)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, req, "/login", 303)
+		return
+	}
+
+	activitieshandler.List(httpwriter, redisclient, credentials, sysid)
+}
+
+func activityadddisplay(httpwriter http.ResponseWriter, req *http.Request) {
+
+	if security.ValidateToken(redisclient, req) == "NotOkToLogin" {
+		http.Redirect(httpwriter, req, "/login", 303)
+		return
+	}
+
+	activitieshandler.LoadDisplayForAdd(httpwriter)
 }
 
 // ----------------------------------------------------------

@@ -85,6 +85,9 @@ Mais um
 Mais dois
 
 db.getSiblingDB("feijoadajusu").getCollection("security").find({});
+db.getSiblingDB("feijoadajusu").getCollection("activities").find({});
+db.getSiblingDB("festajunina").getCollection("activities").find({});
+db.getSiblingDB("festajunina").getCollection("activities").remove({});
 db.getSiblingDB("feijoadajusu").getCollection("security").find({ userid : "DANIELLGMACHADO@GMAIL.COM" });
 
 db.getSiblingDB("festajunina").getCollection("security").remove( { "_id" : ObjectId("5a9296042a6d97d6326d9005") } )

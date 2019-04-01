@@ -1,0 +1,40 @@
+{{ define "listtemplate" }}
+<form action="Submit" method="POST" />
+
+    <h3>{{ .Info.Name }}</h3>
+    <div id="header" class="navbar navbar-left">
+        <button type="submit" formaction="/activityadddisplay" value="Add">Add activity</button>
+        <button type="submit" formaction="/activityupdatedisplay" value="Update">Update</button>
+        <button type="submit" formaction="/activitydeletemultiple" value="Delete">Delete</button> 
+    </div>
+    <div style="float:left;" class="table-responsive">
+        <p>
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th><b>#</b></th>
+                    {{range .FieldNames }}
+                        <th><b>{{.}}</b></th>
+                    {{end}}
+                </tr>
+                {{range .Rows }}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="dishes" value="{{ index .Description 0 }}" unchecked>
+                    </td>
+                    {{range .Description }}
+                        <td>{{.}}</td>
+                    {{end}}
+                </tr>
+                {{end}}
+            </table>
+        </p>
+        <p/>
+        <div id="footer" class="navbar navbar-fixed-right">
+                <button type="submit" formaction="/activityadddisplay" value="Add">Add activity</button>
+                <button type="submit" formaction="/activityupdatedisplay" value="Update">Update</button>
+                <button type="submit" formaction="/activitydeletemultiple" value="Delete">Delete</button> 
+        
+        </div>
+    </div>
+</form>
+{{end}}

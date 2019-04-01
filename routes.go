@@ -86,6 +86,12 @@ var routes = Routes{
 	Route{"dishadd", "POST", "/dishadd", dishadd},
 	Route{"dishupdate", "POST", "/dishupdate", dishupdate},
 	Route{"dishdelete", "POST", "/dishdelete", dishdelete},
+	// ----------------------------------------------------------- Activity
+	Route{"activitylist", "GET", "/activitylist", activitylist},
+	Route{"activityadddisplay", "POST", "/activityadddisplay", activityadddisplay},
+
+	// -----------------------------------------------------------
+
 	Route{"showcache", "GET", "/showcache", showcache},
 	Route{"errorpage", "POST", "/errorpage", errorpage},
 	// ----------------------------------------------------------- Order

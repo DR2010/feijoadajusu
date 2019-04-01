@@ -1,0 +1,57 @@
+ {{define "listtemplate"}}
+
+<h1>Add Activity</h1>
+<form method="POST" action="/activityadd">
+    <div>
+        <br><b>Type: </b>
+        <p/>
+        <select name="activitytype" id="activitytype" value="N" readonly>
+            <option value="Feijoada">Feijoada</option>
+            <option value="CaldoVerde">Caldo Verde</option>
+            <option value="Picanha">Picanha</option>
+        </select>
+        <br>
+
+        <p/> <b>Name:</b>
+        <p/>
+        <input type="text" name="activityname" placeholder="name of the activity">
+
+        <p/> <b>Description:</b>
+        <p/>
+        <input type="text" id="activitydescription" name="activitydescription" placeholder="English description">
+
+        <p/> <b>Date:</b>
+        <p/>
+        <input type="text" id="startdate" name="startdate" placeholder="English description">
+
+        <p/>
+        <br><b>Status: </b>
+        <select name="activitystatus" id="activitystatus" value="N" readonly>
+            <option value="ACTIVE">Active</option>
+            <option value="INACTIVE">Inactive</option>
+        </select>
+        <br>
+
+        <p/>
+        <br><b>Gluten Free: </b>
+        <select name="activityglutenfree" id="activityglutenfree" value="N" readonly>
+            <option value="N">No</option>
+            <option value="Y">Yes</option>
+        </select>
+        <br>
+
+        <p/>
+        <br><b>Vegetarian: </b>
+        <select name="activityvegetarian" id="activityvegetarian" value="N" readonly>
+            <option value="N">No</option>
+            <option value="Y">Yes</option>
+        </select>
+        <br>
+
+        <p/>
+        <input type="submit" formaction="/activityadd" value="Submit">
+        <p/>
+    </div>
+</form>
+
+{{end}}
