@@ -5,11 +5,8 @@
         <h3>{{ .Info.Name }}</h3>
     </myHero>
     <div id="header" class="navbar navbar-left">
-        {{if eq .Info.Name "Dish List" }}
-            <button type="submit" formaction="/dishadddisplay" value="Add">Add Dish</button>
-            <button type="submit" formaction="/dishupdatedisplay" value="Update">Update</button>
-            <button type="submit" formaction="/dishdeletemultiple" value="Delete">Delete</button> 
-        {{end}} 
+        <button type="submit" formaction="/orderadddisplay" value="Add">Add Order</button>
+        <button type="submit" formaction="/orderviewdisplay" value="View">View Order</button> 
     </div>
     <div style="float:left;" class="table-responsive">
         <p>
@@ -34,15 +31,8 @@
         </p>
         <p/>
         <div id="footer" class="navbar navbar-fixed-right">
-            {{if eq .Info.Name "Dish List" }}
-                <button type="submit" formaction="/dishadddisplay" value="Add">Add</button>
-                <button type="submit" formaction="/dishupdatedisplay" value="Update">Update</button>
-                <button type="submit" formaction="/dishdeletemultiple" value="Delete">Delete</button> 
-            {{end}}
-            {{if eq .Info.Name "Order List"}}
-                <button type="submit" formaction="/orderadddisplay" value="Add">Add Order</button>
-                <button type="submit" formaction="/orderviewdisplay" value="View">View</button> 
-            {{end}}
+            <button type="submit" formaction="/orderadddisplay" value="Add">Add Order</button>
+            <button type="submit" formaction="/orderviewdisplay" value="View">View Order</button> 
         </div>
     </div>
 </form>

@@ -88,8 +88,12 @@ var routes = Routes{
 	Route{"dishdelete", "POST", "/dishdelete", dishdelete},
 	// ----------------------------------------------------------- Activity
 	Route{"activitylist", "GET", "/activitylist", activitylist},
-	Route{"activityadddisplay", "POST", "/activityadddisplay", activityadddisplay},
 
+	Route{"activityadddisplay", "POST", "/activityadddisplay", activityadddisplay},
+	Route{"activityupdatedisplay", "POST", "/activityupdatedisplay", activityupdatedisplay},
+
+	Route{"activityadd", "POST", "/activityadd", activityadd},
+	Route{"activityupdate", "POST", "/activityupdate", activityupdate},
 	// -----------------------------------------------------------
 
 	Route{"showcache", "GET", "/showcache", showcache},
@@ -111,6 +115,7 @@ var routes = Routes{
 	Route{"ordersettocompleted", "GET", "/ordersettocompleted", ordersettocompleted},
 	Route{"ordersettopaylater", "GET", "/ordersettopaylater", ordersettopaylater},
 	Route{"ordercancelX", "GET", "/ordercancelX", ordercancel},
+	Route{"ordersettoplaced", "GET", "/ordersettoplaced", ordersettoplaced},
 	Route{"ordercancelX", "POST", "/ordercancelX", ordercancel},
 	Route{"orderviewdisplay", "GET", "/orderviewdisplay", orderviewdisplay},
 	// -----------------------------------------------------------

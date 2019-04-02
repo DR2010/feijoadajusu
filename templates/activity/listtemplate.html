@@ -19,7 +19,7 @@
                 {{range .Rows }}
                 <tr>
                     <td>
-                        <input type="checkbox" name="dishes" value="{{ index .Description 0 }}" unchecked>
+                        <input type="checkbox" name="activities" value="{{ index .Description 0 }}" unchecked>
                     </td>
                     {{range .Description }}
                         <td>{{.}}</td>
@@ -30,9 +30,9 @@
         </p>
         <p/>
         <div id="footer" class="navbar navbar-fixed-right">
-                <button type="submit" formaction="/activityadddisplay" value="Add">Add activity</button>
-                <button type="submit" formaction="/activityupdatedisplay" value="Update">Update</button>
-                <button type="submit" formaction="/activitydeletemultiple" value="Delete">Delete</button> 
+            <button type="submit" formaction="/activityadddisplay" value="Add">Add activity</button>
+            <button type="submit" formaction="/activityupdatedisplay" value="Update">Update</button>
+            <button type="submit" formaction="/activitydeletemultiple" value="Delete">Delete</button> 
         
         </div>
     </div>

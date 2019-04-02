@@ -1,4 +1,4 @@
-// Package disheshandler API calls for dishes web
+// Package activitieshandler API calls for dishes web
 // --------------------------------------------------------------
 // .../src/restauranteweb/areas/disherhandler/dishesapicalls.go
 // --------------------------------------------------------------
@@ -118,7 +118,7 @@ func APIcallAdd(objInsert activities.Activity) commonstruct.Resultado {
 	// mongodbvar.APIServer = "http://localhost:1520/"
 
 	apiURL := mongodbvar.APIServer
-	resource := "/dishadd"
+	resource := "/add"
 
 	data := url.Values{}
 	data.Add("activityname", objInsert.Name)
@@ -156,7 +156,7 @@ func FindAPI(objFind string) activities.Activity {
 
 	var apiserver string
 	// apiserver, _ = redisclient.Get(sysid + "MSAPIactivitiesIPAddress").Result()
-	mongodbvar.APIServer = helper.Getvaluefromcache("MSAPIactivitiesIPAddress")
+	apiserver = helper.Getvaluefromcache("MSAPIactivitiesIPAddress")
 
 	// This is essential! Because if the string has spaces it doesn't work without the escape
 	// Bolo de Cenoura = Bolo+de+Cenoura   >>> Works as a dream!
@@ -174,7 +174,8 @@ func FindAPI(objFind string) activities.Activity {
 	// Build the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal("NewRequest: ", err)
+		// log.Fatal("NewRequest: ", err)
+		log.Println("FindAPI Error http.NewRequest(GET, url, nil): ", err)
 		return emptydisplay
 	}
 
@@ -182,19 +183,21 @@ func FindAPI(objFind string) activities.Activity {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal("Do: ", err)
+		// log.Fatal("Do: ", err)
+
+		log.Println("FindAPI Error client.Do(req): ", err)
 		return emptydisplay
 	}
 
 	defer resp.Body.Close()
 
-	var dishback activities.Activity
+	var activitiesback activities.Activity
 
-	if err := json.NewDecoder(resp.Body).Decode(&dishback); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(&activitiesback); err != nil {
 		log.Println(err)
 	}
 
-	return dishback
+	return activitiesback
 
 }
 
@@ -299,7 +302,7 @@ func DeleteMultipleAPI(objtodelete []string) commonstruct.Resultado {
 	return emptydisplay
 }
 
-// List works
+// ListActivities works
 func ListActivities() []activities.Activity {
 
 	var apiserver string

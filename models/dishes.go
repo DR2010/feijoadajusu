@@ -22,5 +22,6 @@ type Dish struct {
 	ImageName        string        // Image Name
 	Description      string        // Description of the plate
 	Descricao        string        // Descricao do prato
+	ActivityType     string        // Only available for this activity
 
 }

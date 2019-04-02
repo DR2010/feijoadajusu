@@ -408,6 +408,22 @@ func ordersettocompleted(httpwriter http.ResponseWriter, req *http.Request) {
 	http.Redirect(httpwriter, req, "/orderlist", 303)
 }
 
+func ordersettoplaced(httpwriter http.ResponseWriter, req *http.Request) {
+	error, _ := security.ValidateTokenV2(redisclient, req)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, req, "/login", 303)
+		return
+	}
+	ordershandler.OrderisPlaced(httpwriter, req, redisclient, sysid)
+
+	// orderid := req.URL.Query().Get("orderid")
+	// backto := "/orderviewdisplay?orderid=" + orderid
+	// http.Redirect(httpwriter, req, backto, 303)
+
+	http.Redirect(httpwriter, req, "/orderlist", 303)
+}
+
 func ordersettopaylater(httpwriter http.ResponseWriter, req *http.Request) {
 	error, _ := security.ValidateTokenV2(redisclient, req)
 
@@ -456,6 +472,47 @@ func activityadddisplay(httpwriter http.ResponseWriter, req *http.Request) {
 	}
 
 	activitieshandler.LoadDisplayForAdd(httpwriter)
+}
+
+func activityadd(httpwriter http.ResponseWriter, httprequest *http.Request) {
+
+	// Retornar credentials e passar para a rotina Add below
+	//
+	error, _ := security.ValidateTokenV2(redisclient, httprequest)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, httprequest, "/login", 303)
+		return
+	}
+
+	activitieshandler.Add(httpwriter, httprequest, redisclient, sysid)
+}
+
+func activityupdatedisplay(httpresponsewriter http.ResponseWriter, httprequest *http.Request) {
+
+	error, credentials := security.ValidateTokenV2(redisclient, httprequest)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpresponsewriter, httprequest, "/login", 303)
+		return
+	}
+
+	activitieshandler.LoadDisplayForUpdate(httpresponsewriter, httprequest, credentials)
+}
+
+func activityupdate(httpwriter http.ResponseWriter, httprequest *http.Request) {
+
+	// Retornar credentials e passar para a rotina Add below
+	//
+	error, _ := security.ValidateTokenV2(redisclient, httprequest)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, httprequest, "/login", 303)
+		return
+	}
+
+	activitieshandler.Update(httpwriter, httprequest, redisclient, sysid)
+
 }
 
 // ----------------------------------------------------------

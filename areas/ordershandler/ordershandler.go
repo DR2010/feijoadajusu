@@ -559,6 +559,21 @@ func OrderisCompleted(httpwriter http.ResponseWriter, httprequest *http.Request,
 	return
 }
 
+// OrderisPlaced is test
+func OrderisPlaced(httpwriter http.ResponseWriter, httprequest *http.Request, redisclient *redis.Client, sysid string) {
+
+	orderid := httprequest.URL.Query().Get("orderid")
+	orderfind := FindAPI(sysid, redisclient, orderid)
+	orderfind.Status = "Placed"
+	orderfind.TimeCompleted = time.Now().String()
+
+	orderfindbyte, _ := json.Marshal(orderfind)
+
+	APICallUpdate(sysid, redisclient, orderfindbyte)
+
+	return
+}
+
 // OrderWillBePaidLater is test
 func OrderWillBePaidLater(httpwriter http.ResponseWriter, httprequest *http.Request, redisclient *redis.Client, sysid string) {
 
@@ -600,12 +615,12 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	httprequest.ParseForm()
 
 	// Get all selected records
-	orderselected := httprequest.Form["dishes"]
+	orderselected := httprequest.Form["orders"]
 
 	var numrecsel = len(orderselected)
 
 	if numrecsel <= 0 {
-		http.Redirect(httpwriter, httprequest, "/dishlist", 301)
+		http.Redirect(httpwriter, httprequest, "/orderlist", 301)
 		return
 	}
 
@@ -624,10 +639,10 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	}
 
 	// create new template
-	t, _ := template.ParseFiles("html/index.html", "templates/dishupdate.html")
+	t, _ := template.ParseFiles("html/index.html", "templates/order/update.html")
 
 	items := DisplayTemplate{}
-	items.Info.Name = "Dish Add"
+	items.Info.Name = "Order Update"
 
 	items.OrderItem = order.Order{}
 	items.OrderItem.ID = orderselected[0]
@@ -650,12 +665,12 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 	httprequest.ParseForm()
 
 	// Get all selected records
-	dishselected := httprequest.Form["dishes"]
+	dishselected := httprequest.Form["orders"]
 
 	var numrecsel = len(dishselected)
 
 	if numrecsel <= 0 {
-		http.Redirect(httpwriter, httprequest, "/dishlist", 301)
+		http.Redirect(httpwriter, httprequest, "/orderlist", 301)
 		return
 	}
 
@@ -674,7 +689,7 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 	}
 
 	// create new template
-	t, _ := template.ParseFiles("html/index.html", "templates/dishdelete.html")
+	t, _ := template.ParseFiles("html/index.html", "templates/order/delete.html")
 
 	items := DisplayTemplate{}
 	items.Info.Name = "Dish Delete"

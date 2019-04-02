@@ -1,4 +1,4 @@
-// Package disheshandler Handler for dishes web
+// Package activitieshandler Handler for dishes web
 // -----------------------------------------------------------
 // .../src/restauranteweb/areas/disherhandler/disheshandler.go
 // -----------------------------------------------------------
@@ -118,8 +118,8 @@ func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.C
 
 	objaction := activities.Activity{}
 
-	objaction.Name = req.FormValue("activityname") // This is the key, must be unique
 	objaction.Type = req.FormValue("activitytype")
+	objaction.Name = req.FormValue("activityname") // This is the key, must be unique
 	objaction.Description = req.FormValue("activitydescription")
 	objaction.Status = req.FormValue("activitystatus")
 	objaction.StartDate = req.FormValue("activitystartdate")
@@ -133,7 +133,8 @@ func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.C
 	} else {
 
 		// create new template
-		t, _ := template.ParseFiles("html/index.html", "templates/error.html")
+		// t, _ := template.ParseFiles("html/index.html", "templates/error.html")
+		t, _ := template.ParseFiles("html/index.html", "templates/activity/add.html")
 
 		items := DisplayTemplate{}
 		items.Info.Name = "Error"
@@ -167,7 +168,7 @@ func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redi
 }
 
 // LoadDisplayForUpdate is
-func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Request, redisclient *redis.Client, credentials commonstruct.Credentials, sysid string) {
+func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Request, credentials commonstruct.Credentials) {
 
 	httprequest.ParseForm()
 
@@ -199,7 +200,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	}
 
 	// create new template
-	t, _ := template.ParseFiles("html/index.html", "templates/activity/activityupdate.html")
+	t, _ := template.ParseFiles("html/index.html", "templates/activity/update.html")
 
 	items := DisplayTemplate{}
 	items.Info.Name = "Activity Add"

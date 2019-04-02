@@ -70,7 +70,7 @@ func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials
 		// do something
 	}
 
-	var numberoffields = 8
+	var numberoffields = 9
 
 	// Set colum names
 	items.FieldNames = make([]string, numberoffields)
@@ -82,6 +82,7 @@ func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials
 	items.FieldNames[5] = "Vegetarian"
 	items.FieldNames[6] = "Initial"
 	items.FieldNames[7] = "Available"
+	items.FieldNames[8] = "Event"
 
 	// Set rows to be displayed
 	items.Rows = make([]Row, len(dishlist))
@@ -98,6 +99,7 @@ func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials
 		items.Rows[i].Description[5] = dishlist[i].Vegetarian
 		items.Rows[i].Description[6] = dishlist[i].InitialAvailable
 		items.Rows[i].Description[7] = dishlist[i].CurrentAvailable
+		items.Rows[i].Description[8] = dishlist[i].ActivityType
 	}
 
 	t.Execute(httpwriter, items)
@@ -175,6 +177,7 @@ func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.C
 	dishtoadd.ImageName = req.FormValue("imagename")
 	dishtoadd.Description = req.FormValue("dishdescription")
 	dishtoadd.Descricao = req.FormValue("dishdescricao")
+	dishtoadd.ActivityType = req.FormValue("dishactivitytype")
 
 	ret := APIcallAdd(dishtoadd)
 
@@ -214,6 +217,7 @@ func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redi
 	dishtoadd.ImageName = req.FormValue("imagename")
 	dishtoadd.Description = req.FormValue("dishdescription")
 	dishtoadd.Descricao = req.FormValue("dishdescricao")
+	dishtoadd.ActivityType = req.FormValue("dishactivitytype")
 
 	ret := DishupdateAPI(dishtoadd)
 

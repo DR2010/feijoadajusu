@@ -152,6 +152,7 @@ func APIcallAdd(dishInsert dishes.Dish) commonstruct.Resultado {
 	data.Add("dishimagename", dishInsert.ImageName)
 	data.Add("dishdescription", dishInsert.Description)
 	data.Add("dishdescricao", dishInsert.Descricao)
+	data.Add("dishactivitytype", dishInsert.ActivityType)
 
 	u, _ := url.ParseRequestURI(apiURL)
 	u.Path = resource
@@ -181,7 +182,7 @@ func FindAPI(dishFind string) dishes.Dish {
 
 	var apiserver string
 	// apiserver, _ = redisclient.Get(sysid + "MSAPIdishesIPAddress").Result()
-	mongodbvar.APIServer = helper.Getvaluefromcache("MSAPIdishesIPAddress")
+	apiserver = helper.Getvaluefromcache("MSAPIdishesIPAddress")
 
 	// This is essential! Because if the string has spaces it doesn't work without the escape
 	// Bolo de Cenoura = Bolo+de+Cenoura   >>> Works as a dream!
@@ -199,7 +200,8 @@ func FindAPI(dishFind string) dishes.Dish {
 	// Build the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal("NewRequest: ", err)
+		// log.Fatal("NewRequest: ", err)
+		log.Println("FindAPI Error http.NewRequest(GET, url, nil): ", err)
 		return emptydisplay
 	}
 
@@ -207,7 +209,9 @@ func FindAPI(dishFind string) dishes.Dish {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal("Do: ", err)
+		// log.Fatal("Do: ", err)
+
+		log.Println("FindAPI Error client.Do(req): ", err)
 		return emptydisplay
 	}
 
@@ -246,6 +250,7 @@ func DishupdateAPI(dishUpdate dishes.Dish) commonstruct.Resultado {
 	data.Add("dishimagename", dishUpdate.ImageName)
 	data.Add("dishdescription", dishUpdate.Description)
 	data.Add("dishdescricao", dishUpdate.Descricao)
+	data.Add("dishactivitytype", dishUpdate.ActivityType)
 
 	u, _ := url.ParseRequestURI(apiURL)
 	u.Path = resource

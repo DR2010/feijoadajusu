@@ -1,101 +1,72 @@
- {{define "listtemplate"}}
+{{define "listtemplate"}}
 
-<h1>Update Dish</h1>
-<form method="POST" action="/dishupdate">
+<h1>Update Activity</h1>
+<form method="POST" action="/activityadd">
     <div>
-
-        <br><b>Dish Type: </b>
+        <br><b>Type: </b>
         <p/>
-        <select name="dishtype" id="dishtype">
-            {{ if eq .DishItem.Type "Sweet"}}
-                <option selected="selected">Sweet</option>
-            {{ else }}
-                <option value="Sweet">Sweet</option>
-            {{ end }}
+        <select name="activitytype" id="activitytype" value="N" readonly>
 
-            {{ if eq .DishItem.Type "Drink"}}
-                <option selected="selected">Drink</option>
-            {{ else }}
-                <option value="Drink">Drink</option>
-            {{ end }}
+             {{ if eq .Item.Type "Every Event"}}
+                <option selected="selected">Every Event</option>
+             {{ else }}
+                <option value="Every Event">Every Event</option>
+             {{ end }}
+ 
+             {{ if eq .Item.Type "Feijoada"}}
+                <option selected="selected">Feijoada</option>
+             {{ else }}
+                <option value="Feijoada">Feijoada</option>
+             {{ end }}
 
-            {{ if eq .DishItem.Type "Savoury"}}
-                <option selected="selected">Savoury</option>
-            {{ else }}
-                <option value="Savoury">Savoury</option>
-            {{ end }}
+             {{ if eq .Item.Type "Caldo Verde"}}
+                <option selected="selected">Caldo Verde</option>
+             {{ else }}
+                <option value="Caldo Verde">Caldo Verde</option>
+             {{ end }}
+
+             {{ if eq .Item.Type "Picanha"}}
+                <option selected="selected">Picanha</option>
+             {{ else }}
+                <option value="Picanha">Picanha</option>
+             {{ end }}
+
+             {{ if eq .Item.Type "Not Available"}}
+                <option selected="selected">Not Available</option>
+             {{ else }}
+                <option value="Not Available">Not Available</option>
+             {{ end }}
+
         </select>
         <br>
 
-        
-
-        <p/> <b>Dish Name:</b>
+        <p/> <b>Name:</b>
         <p/>
-        <input type="text" name="dishname" value="{{ .DishItem.Name }}">
-
-        <p/> <b>Dish Price:</b>
-        <p/>
-        <input type="text" name="dishprice" value="{{ .DishItem.Price }}">
-
-        <p/>
-        <br><b>Gluten Free: </b>
-        <select name="dishglutenfree" id="dishglutenfree" value="{{ .DishItem.GlutenFree }}">
-            {{ if eq .DishItem.GlutenFree "Yes"}}
-                <option selected="selected">Yes</option>
-                <option value="No">No</option>
-            {{ else }}
-                <option value="Yes">Yes</option>
-                <option selected="selected">No</option>
-            {{ end }}
-        </select>
-        <br>
-
-        <br><b>Dairy Free: </b>
-        <select name="dishdairyfree" id="dishdairyfree" value="{{ .DishItem.DairyFree }}">
-            {{ if eq .DishItem.DairyFree "Yes"}}
-                <option selected="selected">Yes</option>
-                <option value="No">No</option>
-            {{ else }}
-                <option value="Yes">Yes</option>
-                <option selected="selected">No</option>
-            {{ end }}
-        </select>
-        <br>
-
-        <br><b>Vegetarian: </b>
-        <select name="dishvegetarian" id="dishvegetarian" value="{{ .DishItem.Vegetarian }}">
-            {{ if eq .DishItem.Vegetarian "Yes"}}
-                <option selected="selected">Yes</option>
-                <option value="No">No</option>
-            {{ else }}
-                <option value="Yes">Yes</option>
-                <option selected="selected">No</option>
-            {{ end }}
-        </select>
-        <br>
-
-        <p/> <b>Initial - Available:</b>
-        <p/>
-        <input type="text" id="dishinitialavailable" name="dishinitialavailable" value="{{ .DishItem.InitialAvailable }}">
-
-        <p/> <b>Current - Available:</b>
-        <p/>
-        <input type="text" id="dishcurrentavailable" name="dishcurrentavailable" value="{{ .DishItem.CurrentAvailable }}">
-
-        <p/> <b>Image Name:</b>
-        <p/>
-        <input type="text" id="imagename" name="imagename" value="{{ .DishItem.ImageName }}">
+        <input type="text" name="activityname" value="{{ .Item.Name }}">
 
         <p/> <b>Description:</b>
         <p/>
-        <input type="text" id="dishdescription" name="dishdescription" value="{{ .DishItem.Description }}">
+        <input type="text" id="activitydescription" name="activitydescription" value="{{ .Item.Description }}">
 
-        <p/> <b>Descricao:</b>
+        <p/> <b>Date:</b>
         <p/>
-        <input type="text" id="dishdescricao" name="dishdescricao" value="{{ .DishItem.Descricao }}">
+        <input type="text" id="activitystartdate" name="activitystartdate" value="{{ .Item.StartDate }}">
 
         <p/>
-        <input type="submit" formaction="/dishupdate" value="Submit">
+        <br><b>Status: </b>
+        <select name="activitystatus" id="activitystatus" value="{{ .Item.Status }}">
+            {{ if eq .Item.Status "ACTIVE"}}
+                <option selected="selected">Active</option>
+                <option value="INACTIVE">Inactive</option>
+            {{ else }}
+                <option value="ACTIVE">Active</option>
+                <option selected="selected">Inactive</option>
+        {{ end }}
+        </select>
+        <br>
+
+        <p/>
+        <input type="submit" formaction="/activityadd" value="Submit">
         <p/>
     </div>
 </form>

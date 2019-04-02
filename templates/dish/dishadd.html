@@ -3,9 +3,20 @@
 <h1>Add Dish</h1>
 <form method="POST" action="/dishadd">
     <div>
-        <br><b>Dish Type: </b>
+        <br><b>Availability: </b>
         <p/>
-        <select name="dishtype" id="dishtype" value="N" readonly>
+        <select name="dishactivitytype" id="dishactivitytype" >
+            <option value="All">Every Event</option>
+            <option value="Feijoada">Feijoada</option>
+            <option value="CaldoVerde">CaldoVerde</option>
+            <option value="Picanha">Picanha</option>
+            <option value="Not Available">NotAvailable</option>
+        </select>
+        <br>
+
+        <br><b>Type: </b>
+        <p/>
+        <select name="dishtype" id="dishtype" >
             <option value="Savoury">Savoury</option>
             <option value="Sweet">Sweet</option>
             <option value="Drink">Drink</option>

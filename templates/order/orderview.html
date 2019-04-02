@@ -93,6 +93,7 @@
         <a href="/ordersettocompleted?orderid={{ .OrderItem.ID }}" class="btn btn-md btn-primary">Completed</a>
         <a href="/ordersettopaylater?orderid={{ .OrderItem.ID }}" class="btn btn-md btn-warning">Pay Later</a>
         <a href="/ordercancelX?orderid={{ .OrderItem.ID }}" class="btn btn-md btn-danger">Cancel Order</a>
+        <a href="/ordersettoplaced?orderid={{ .OrderItem.ID }}" class="btn btn-md btn-danger">Placed</a>
     {{ end }}
     <!-- {{if eq .OrderItem.Status "Placed" }}
     {{ end }} -->
