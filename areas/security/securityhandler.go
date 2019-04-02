@@ -494,12 +494,12 @@ func LoginPage(httpresponsewriter http.ResponseWriter, httprequest *http.Request
 		return
 	}
 
-	if resultado.ApplicationID != "Restaurante" {
-		t, _ := template.ParseFiles("templates/security/login.html", "templates/security/loginmessagetemplate.html")
-		items.Info.Message = "User is invalid."
-		t.Execute(httpresponsewriter, items)
-		return
-	}
+	// if resultado.ApplicationID != "Restaurante" {
+	// 	t, _ := template.ParseFiles("templates/security/login.html", "templates/security/loginmessagetemplate.html")
+	// 	items.Info.Message = "User is invalid."
+	// 	t.Execute(httpresponsewriter, items)
+	// 	return
+	// }
 
 	// Store Token in Cache
 	var jwttoken = resultado.JWT

@@ -2,16 +2,15 @@
 
 <div id="header" class="navbar navbar-left" id="navbar">
     <a href="/" class="btn btn-md btn-danger ">Home</a>
-    <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
-    <a href="/orderlist" class="btn btn-md btn-success">Orders</a>
+    
+    <a href="/dishlistpictures" class="btn btn-md btn-success">Menu</a>
+    <a href="/orderlist" class="btn btn-md btn-success ">Orders</a>
+    {{ if eq .Info.IsAdmin "Yes" }}
+        <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
+        <a href="/activitylist" class="btn btn-md btn-success ">Activities</a>
+    {{ end }}
     <a href="/instructions" class="btn btn-md btn-success">Instructions</a>
-
-    {{ if eq .Info.ApplicationID "Restaurante" }}
-        {{ if eq .Info.IsAdmin "Yes" }}
-            <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
-        {{ end }}
-    {{end}}
-</div>
+    </div>
 
 <p/>
 
