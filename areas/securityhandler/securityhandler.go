@@ -122,6 +122,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 		Currency    string
 		Application string
 		IsAdmin     string
+		UserType    string
 	}
 	type Row struct {
 		Description []string
@@ -137,7 +138,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	t, _ := template.ParseFiles("html/index.html", "templates/security/update.html")
 
 	items := DisplayTemplate{}
-	items.Info.Name = "Activity Add"
+	items.Info.Name = "User Add"
 	items.Info.Currency = "SUMMARY"
 	items.Info.UserID = credentials.UserID
 	items.Info.Application = credentials.ApplicationID
@@ -151,6 +152,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 
 	userfind = FindAPI(username)
 	items.Item = userfind
+	items.Info.UserType = userfind.ClaimSet[0].Value
 
 	t.Execute(httpwriter, items)
 
@@ -229,7 +231,7 @@ func UserList(httpwriter http.ResponseWriter, redisclient *redis.Client, credent
 	// Assemble the display structure for html template
 	//
 	items := DisplayTemplate{}
-	items.Info.Name = "Activity List"
+	items.Info.Name = "User List"
 	items.Info.UserID = credentials.UserID
 	items.Info.UserName = credentials.Name
 	items.Info.ApplicationID = credentials.ApplicationID
@@ -237,7 +239,7 @@ func UserList(httpwriter http.ResponseWriter, redisclient *redis.Client, credent
 
 	if error.IsSuccessful == "false" {
 
-		items.Info.Name = "Activity List " + error.ErrorDescription
+		items.Info.Name = "User List " + error.ErrorDescription
 
 		// do something
 	}
