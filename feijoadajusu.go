@@ -22,7 +22,7 @@ import (
 	cachehandler "feijoadajusu/areas/cachehandler"
 	"feijoadajusu/areas/commonstruct"
 	"feijoadajusu/areas/ordershandler"
-	"feijoadajusu/areas/security"
+	security "feijoadajusu/areas/securityhandler"
 	"fmt"
 	"html/template"
 	"log"
@@ -194,6 +194,25 @@ func userRolesShowPage(httpresponsewriter http.ResponseWriter, httprequest *http
 	security.UserRolesShowPage(httpresponsewriter, httprequest, redisclient)
 }
 
+// userupdatedisplay is invoked from initial menu item
+func userupdatedisplay(httpresponsewriter http.ResponseWriter, httprequest *http.Request) {
+
+	error, credentials := security.ValidateTokenV2(redisclient, httprequest)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpresponsewriter, httprequest, "/login", 303)
+		return
+	}
+
+	security.LoadDisplayForUpdate(httpresponsewriter, httprequest, credentials)
+}
+
+// userRolesShowPage is invoked from initial menu item
+func userSelectedShowPage(httpresponsewriter http.ResponseWriter, httprequest *http.Request) {
+
+	security.UserRolesShowPage(httpresponsewriter, httprequest, redisclient)
+}
+
 // userRolesShowPage is invoked from the button to get user details
 func userRolesGetDetails(httpresponsewriter http.ResponseWriter, httprequest *http.Request) {
 
@@ -219,6 +238,18 @@ func instructions(httpresponsewriter http.ResponseWriter, httprequest *http.Requ
 
 	security.Instructions(httpresponsewriter, httprequest, redisclient)
 
+}
+
+func userlist(httpwriter http.ResponseWriter, req *http.Request) {
+
+	error, credentials := security.ValidateTokenV2(redisclient, req)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, req, "/login", 303)
+		return
+	}
+
+	security.UserList(httpwriter, redisclient, credentials, sysid)
 }
 
 // ----------------------------------------------------------

@@ -6,7 +6,7 @@ package disheshandler
 
 import (
 	"feijoadajusu/areas/commonstruct"
-	dishes "feijoadajusu/models"
+	"feijoadajusu/models"
 	"html/template"
 	"net/http"
 
@@ -37,17 +37,17 @@ type DisplayTemplate struct {
 	Info       ControllerInfo
 	FieldNames []string
 	Rows       []Row
-	Pratos     []dishes.Dish
+	Pratos     []models.Dish
 }
 
 var mongodbvar commonstruct.DatabaseX
 
 // List = assemble results of API call to dish list
 //
-func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials commonstruct.Credentials, sysid string) {
+func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials models.Credentials, sysid string) {
 
 	// create new template
-	t, _ := template.ParseFiles("html/index.html", "templates/listtemplate.html")
+	t, _ := template.ParseFiles("html/index.html", "templates/dish/listtemplate.html")
 
 	// Get list of dishes (api call)
 	//
@@ -106,7 +106,7 @@ func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials
 }
 
 // ListPictures shows dishes
-func ListPictures(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials commonstruct.Credentials) {
+func ListPictures(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials models.Credentials) {
 
 	// create new template
 	t, _ := template.ParseFiles("templates/dish/dishindex.html", "templates/dish/dishavailablelist.html")
@@ -134,10 +134,10 @@ func ListPictures(httpwriter http.ResponseWriter, redisclient *redis.Client, cre
 	items.FieldNames[2] = "Description"
 	items.FieldNames[3] = "Price"
 
-	items.Pratos = make([]dishes.Dish, len(dishlist))
+	items.Pratos = make([]models.Dish, len(dishlist))
 
 	for i := 0; i < len(dishlist); i++ {
-		items.Pratos[i] = dishes.Dish{}
+		items.Pratos[i] = models.Dish{}
 		items.Pratos[i].Name = dishlist[i].Name
 		items.Pratos[i].ImageName = dishlist[i].ImageName
 		items.Pratos[i].Description = dishlist[i].Description
@@ -163,7 +163,7 @@ func LoadDisplayForAdd(httpwriter http.ResponseWriter) {
 // Add is
 func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.Client, sysid string) {
 
-	dishtoadd := dishes.Dish{}
+	dishtoadd := models.Dish{}
 
 	dishtoadd.Name = req.FormValue("dishname") // This is the key, must be unique
 	dishtoadd.Type = req.FormValue("dishtype")
@@ -204,7 +204,7 @@ func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.C
 // Update dish sent
 func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.Client, sysid string) {
 
-	dishtoadd := dishes.Dish{}
+	dishtoadd := models.Dish{}
 
 	dishtoadd.Name = req.FormValue("dishname") // This is the key, must be unique
 	dishtoadd.Type = req.FormValue("dishtype")
@@ -229,7 +229,7 @@ func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redi
 }
 
 // LoadDisplayForUpdate is
-func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Request, redisclient *redis.Client, credentials commonstruct.Credentials, sysid string) {
+func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Request, redisclient *redis.Client, credentials models.Credentials, sysid string) {
 
 	httprequest.ParseForm()
 
@@ -257,7 +257,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 		Info       ControllerInfo
 		FieldNames []string
 		Rows       []Row
-		DishItem   dishes.Dish
+		DishItem   models.Dish
 	}
 
 	// create new template
@@ -269,10 +269,10 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	items.Info.UserID = credentials.UserID
 	items.Info.Application = credentials.ApplicationID
 
-	items.DishItem = dishes.Dish{}
+	items.DishItem = models.Dish{}
 	items.DishItem.Name = dishselected[0]
 
-	var dishfind = dishes.Dish{}
+	var dishfind = models.Dish{}
 	var dishname = items.DishItem.Name
 
 	dishfind = FindAPI(dishname)
@@ -310,7 +310,7 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 		Info       ControllerInfo
 		FieldNames []string
 		Rows       []Row
-		DishItem   dishes.Dish
+		DishItem   models.Dish
 	}
 
 	// create new template
@@ -319,10 +319,10 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 	items := DisplayTemplate{}
 	items.Info.Name = "Dish Delete"
 
-	items.DishItem = dishes.Dish{}
+	items.DishItem = models.Dish{}
 	items.DishItem.Name = dishselected[0]
 
-	var dishfind = dishes.Dish{}
+	var dishfind = models.Dish{}
 	var dishname = items.DishItem.Name
 
 	dishfind = FindAPI(dishname)
@@ -337,7 +337,7 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 // Delete dish sent
 func Delete(redisclient *redis.Client, httpwriter http.ResponseWriter, req *http.Request, sysid string) {
 
-	dishtoadd := dishes.Dish{}
+	dishtoadd := models.Dish{}
 
 	dishtoadd.Name = req.FormValue("dishname") // This is the key, must be unique
 	dishtoadd.Type = req.FormValue("dishtype")
@@ -384,7 +384,7 @@ func dishdeletedisplay(httpwriter http.ResponseWriter, req *http.Request, redisc
 		Info       ControllerInfo
 		FieldNames []string
 		Rows       []Row
-		DishItem   dishes.Dish
+		DishItem   models.Dish
 	}
 
 	// create new template
@@ -393,10 +393,10 @@ func dishdeletedisplay(httpwriter http.ResponseWriter, req *http.Request, redisc
 	items := DisplayTemplate{}
 	items.Info.Name = "Dish Delete"
 
-	items.DishItem = dishes.Dish{}
+	items.DishItem = models.Dish{}
 	items.DishItem.Name = dishselected[0]
 
-	var dishfind = dishes.Dish{}
+	var dishfind = models.Dish{}
 	var dishname = items.DishItem.Name
 
 	dishfind = FindAPI(dishname)

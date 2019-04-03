@@ -6,6 +6,7 @@ package helper
 
 import (
 	"feijoadajusu/areas/commonstruct"
+	"feijoadajusu/models"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -44,7 +45,7 @@ var mongodbvar commonstruct.DatabaseX
 
 // HomePage = assemble results of API call to dish list
 //
-func HomePage(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials commonstruct.Credentials) {
+func HomePage(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials models.Credentials) {
 
 	// create new template
 	t, _ := template.ParseFiles("html/homepage.html", "templates/main/pagebodytemplate.html")

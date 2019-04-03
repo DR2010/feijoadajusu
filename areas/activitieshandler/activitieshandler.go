@@ -6,7 +6,7 @@ package activitieshandler
 
 import (
 	"feijoadajusu/areas/commonstruct"
-	activities "feijoadajusu/models"
+	models "feijoadajusu/models"
 	"html/template"
 	"mongodb/dishes"
 	"net/http"
@@ -45,7 +45,7 @@ var mongodbvar commonstruct.DatabaseX
 
 // List = assemble results of API call to dish list
 //
-func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials commonstruct.Credentials, sysid string) {
+func List(httpwriter http.ResponseWriter, redisclient *redis.Client, credentials models.Credentials, sysid string) {
 
 	// create new template
 	t, _ := template.ParseFiles("html/index.html", "templates/activity/listtemplate.html")
@@ -116,7 +116,7 @@ func LoadDisplayForAdd(httpwriter http.ResponseWriter) {
 // Add is
 func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.Client, sysid string) {
 
-	objaction := activities.Activity{}
+	objaction := models.Activity{}
 
 	objaction.Type = req.FormValue("activitytype")
 	objaction.Name = req.FormValue("activityname") // This is the key, must be unique
@@ -149,7 +149,7 @@ func Add(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.C
 // Update dish sent
 func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redis.Client, sysid string) {
 
-	objaction := activities.Activity{}
+	objaction := models.Activity{}
 
 	objaction.Name = req.FormValue("activityname") // This is the key, must be unique
 	objaction.Type = req.FormValue("activitytype")
@@ -168,7 +168,7 @@ func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redi
 }
 
 // LoadDisplayForUpdate is
-func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Request, credentials commonstruct.Credentials) {
+func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Request, credentials models.Credentials) {
 
 	httprequest.ParseForm()
 
@@ -196,7 +196,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 		Info       ControllerInfo
 		FieldNames []string
 		Rows       []Row
-		Item       activities.Activity
+		Item       models.Activity
 	}
 
 	// create new template
@@ -208,10 +208,10 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	items.Info.UserID = credentials.UserID
 	items.Info.Application = credentials.ApplicationID
 
-	items.Item = activities.Activity{}
+	items.Item = models.Activity{}
 	items.Item.Name = activityselected[0]
 
-	var activitiesfind = activities.Activity{}
+	var activitiesfind = models.Activity{}
 	var activitiesname = items.Item.Name
 
 	activitiesfind = FindAPI(activitiesname)
@@ -249,7 +249,7 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 		Info       ControllerInfo
 		FieldNames []string
 		Rows       []Row
-		Item       activities.Activity
+		Item       models.Activity
 	}
 
 	// create new template
@@ -258,10 +258,10 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 	items := DisplayTemplate{}
 	items.Info.Name = "Activity Delete"
 
-	items.Item = activities.Activity{}
+	items.Item = models.Activity{}
 	items.Item.Name = activityselected[0]
 
-	var activityfind = activities.Activity{}
+	var activityfind = models.Activity{}
 	var activityname = items.Item.Name
 
 	activityfind = FindAPI(activityname)
@@ -276,7 +276,7 @@ func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Requ
 // Delete dish sent
 func Delete(redisclient *redis.Client, httpwriter http.ResponseWriter, req *http.Request, sysid string) {
 
-	objaction := activities.Activity{}
+	objaction := models.Activity{}
 
 	objaction.Name = req.FormValue("activityname") // This is the key, must be unique
 	objaction.Type = req.FormValue("activitytype")
@@ -318,7 +318,7 @@ func activitydeletedisplay(httpwriter http.ResponseWriter, req *http.Request, re
 		Info       ControllerInfo
 		FieldNames []string
 		Rows       []Row
-		Item       activities.Activity
+		Item       models.Activity
 	}
 
 	// create new template
@@ -327,10 +327,10 @@ func activitydeletedisplay(httpwriter http.ResponseWriter, req *http.Request, re
 	items := DisplayTemplate{}
 	items.Info.Name = "Activity Delete"
 
-	items.Item = activities.Activity{}
+	items.Item = models.Activity{}
 	items.Item.Name = activityselected[0]
 
-	var activityfind = activities.Activity{}
+	var activityfind = models.Activity{}
 	var activityname = items.Item.Name
 
 	activityfind = FindAPI(activityname)

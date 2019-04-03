@@ -1,0 +1,38 @@
+{{define "listtemplate"}}
+
+<h2>User Details</h2>
+<form method="POST" action="/userupdate">
+    <div>
+      <br>
+      <p/>Is Administrator:<p/>
+      <p/>
+      <input type="text" name="activityname" value="{{ .Info.IsAdmin }}">
+
+      <p/> Application ID:
+      <p/>
+      <input type="text" name="applicationid" value="{{ .Info.Application }}">
+      <p/> User Status:
+      <p/>
+      <select name="status" id="status">
+          <option value="Select...">Select</option>
+          <option value="ACTIVE">ACTIVE</option>
+          <option value="INACTIVE">INACTIVE</option>
+      </select>
+      <br>
+  
+      <br> User Type:<br>
+      <p/>
+      <select name="usertype" id="usertype">
+          <option value="Select...">Select</option>
+          <option value="BASIC">BASIC</option>
+          <option value="ADMIN">ADMIN</option>
+      </select>
+      <br>
+  
+        <p/>
+        <input type="submit" formaction="/activityadd" value="Submit">
+        <p/>
+    </div>
+</form>
+
+{{end}}

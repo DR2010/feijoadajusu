@@ -73,9 +73,14 @@ var routes = Routes{
 	Route{"requestcode", "POST", "/requestcode", requestCode},
 	Route{"changepassword", "POST", "/changepassword", changePassword},
 	Route{"userrolesshowpage", "GET", "/userrolesshowpage", userRolesShowPage},
+	Route{"userrolesshowpage", "POST", "/userrolesshowpage", userRolesShowPage},
 	Route{"userrolesgetdetails", "POST", "/userrolesgetdetails", userRolesGetDetails},
 	Route{"userrolesgetdetails", "GET", "/userrolesgetdetails", userRolesGetDetails},
 	Route{"userrolesupdate", "POST", "/userrolesupdate", userRolesUpdate},
+	Route{"userlist", "GET", "/userlist", userlist},
+
+	Route{"userupdatedisplay", "POST", "/userupdatedisplay", userupdatedisplay},
+
 	// ----------------------------------------------------------- Dishes
 	Route{"dishlist", "GET", "/dishlist", dishlist},
 	Route{"dishlistpictures", "GET", "/dishlistpictures", dishlistpictures},

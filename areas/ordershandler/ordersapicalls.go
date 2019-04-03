@@ -7,13 +7,12 @@ package ordershandler
 import (
 	"encoding/json"
 	"feijoadajusu/areas/commonstruct"
+	"feijoadajusu/models"
 	"fmt"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
-
-	order "feijoadajusu/models"
 
 	"github.com/go-redis/redis"
 
@@ -53,7 +52,7 @@ type RespAddOrder struct {
 }
 
 // FindAPI is to find stuff
-func FindAPI(sysid string, redisclient *redis.Client, orderFind string) order.Order {
+func FindAPI(sysid string, redisclient *redis.Client, orderFind string) models.Order {
 
 	var apiserver string
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
@@ -61,7 +60,7 @@ func FindAPI(sysid string, redisclient *redis.Client, orderFind string) order.Or
 
 	url := fmt.Sprintf(urlrequest)
 
-	var emptydisplay order.Order
+	var emptydisplay models.Order
 
 	// Build the request
 	req, err := http.NewRequest("GET", url, nil)
@@ -80,7 +79,7 @@ func FindAPI(sysid string, redisclient *redis.Client, orderFind string) order.Or
 
 	defer resp.Body.Close()
 
-	var orderback order.Order
+	var orderback models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&orderback); err != nil {
 		log.Println(err)
@@ -92,10 +91,10 @@ func FindAPI(sysid string, redisclient *redis.Client, orderFind string) order.Or
 
 // APICallList works
 // Order List
-func APICallList(sysid string, redisclient *redis.Client) []order.Order {
+func APICallList(sysid string, redisclient *redis.Client) []models.Order {
 
 	var apiserver string
-	var emptydisplay []order.Order
+	var emptydisplay []models.Order
 
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
 	urlrequest := apiserver + "/orderlist"
@@ -120,7 +119,7 @@ func APICallList(sysid string, redisclient *redis.Client) []order.Order {
 	defer resp.Body.Close()
 
 	// return list of orders
-	var list []order.Order
+	var list []models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
 		log.Println(err)
@@ -131,10 +130,10 @@ func APICallList(sysid string, redisclient *redis.Client) []order.Order {
 
 // APICallListV2 works
 // Order List
-func APICallListV2(sysid string, redisclient *redis.Client, credentials commonstruct.Credentials) []order.Order {
+func APICallListV2(sysid string, redisclient *redis.Client, credentials models.Credentials) []models.Order {
 
 	var apiserver string
-	var emptydisplay []order.Order
+	var emptydisplay []models.Order
 
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
 
@@ -171,7 +170,7 @@ func APICallListV2(sysid string, redisclient *redis.Client, credentials commonst
 	defer resp.Body.Close()
 
 	// return list of orders
-	var list []order.Order
+	var list []models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
 		log.Println(err)
@@ -208,7 +207,7 @@ func APISaveOrderToMySQL(sysid string, redisclient *redis.Client) {
 	defer resp.Body.Close()
 
 	// return list of orders
-	var list []order.Order
+	var list []models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
 		log.Println(err)
@@ -218,10 +217,10 @@ func APISaveOrderToMySQL(sysid string, redisclient *redis.Client) {
 }
 
 // APICallListCompleted is completed
-func APICallListCompleted(sysid string, redisclient *redis.Client, credentials commonstruct.Credentials) []order.Order {
+func APICallListCompleted(sysid string, redisclient *redis.Client, credentials models.Credentials) []models.Order {
 
 	var apiserver string
-	var emptydisplay []order.Order
+	var emptydisplay []models.Order
 
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
 	urlrequest := apiserver + "/ordercompleted"
@@ -248,7 +247,7 @@ func APICallListCompleted(sysid string, redisclient *redis.Client, credentials c
 	defer resp.Body.Close()
 
 	// return list of orders
-	var list []order.Order
+	var list []models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
 		log.Println(err)
@@ -258,10 +257,10 @@ func APICallListCompleted(sysid string, redisclient *redis.Client, credentials c
 }
 
 // APICallListStatus is completed
-func APICallListStatus(sysid string, redisclient *redis.Client, credentials commonstruct.Credentials, status string) []order.Order {
+func APICallListStatus(sysid string, redisclient *redis.Client, credentials models.Credentials, status string) []models.Order {
 
 	var apiserver string
-	var emptydisplay []order.Order
+	var emptydisplay []models.Order
 
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
 
@@ -287,7 +286,7 @@ func APICallListStatus(sysid string, redisclient *redis.Client, credentials comm
 	defer resp.Body.Close()
 
 	// return list of orders
-	var list []order.Order
+	var list []models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
 		log.Println(err)
@@ -392,7 +391,7 @@ func APICallAddOrderClient(sysid string, redisclient *redis.Client, bodybyte []b
 }
 
 // APICallFind is to find stuff
-func APICallFind(sysid string, redisclient *redis.Client, objectfind string) order.Order {
+func APICallFind(sysid string, redisclient *redis.Client, objectfind string) models.Order {
 
 	var apiserver string
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
@@ -401,7 +400,7 @@ func APICallFind(sysid string, redisclient *redis.Client, objectfind string) ord
 
 	url := fmt.Sprintf(urlrequest)
 
-	var emptydisplay order.Order
+	var emptydisplay models.Order
 
 	// Build the request
 	req, err := http.NewRequest("GET", url, nil)
@@ -420,7 +419,7 @@ func APICallFind(sysid string, redisclient *redis.Client, objectfind string) ord
 
 	defer resp.Body.Close()
 
-	var objectback order.Order
+	var objectback models.Order
 
 	if err := json.NewDecoder(resp.Body).Decode(&objectback); err != nil {
 		log.Println(err)

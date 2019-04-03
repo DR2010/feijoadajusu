@@ -14,6 +14,8 @@ db.getUsers();
 //
 show roles
 
+// Find LIKE *
+db.getSiblingDB("feijoadajusu").getCollection("security").find({ userid : /USR/ });
 
 //
 // Get the collection statistics 
