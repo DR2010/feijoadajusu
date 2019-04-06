@@ -69,8 +69,8 @@ function addNewItem() {
 
     x = '<input type=checkbox name=row' + lastRowNumber + ' id=checkitem' + lastRowNumber + ' value=' + valueplate + '>';
     b = "<button type=button onclick=' RemoveRow(this) '>Remove</button>";
-    b = "<img src='images/bin.png' onclick='RemoveRow(this)' style='width:40px;height:40px;'>";
-    b = "<input type='image' src='images/bin.png' onclick='RemoveRow(this)' style='width:60px;height:60px;'>";
+    // b = "<img src='images/bin.png' onclick='RemoveRow(this)' style='width:40px;height:40px;'>";
+    // b = "<input type='image' src='images/bin.png' onclick='RemoveRow(this)' style='width:40px;height:40px;'>";
     // b = "<input type='button' value='' style='background-image: images/bin.png;background-size:100% 100%;'></input>";
 
     var preco = parseFloat(pricefromhtml.value);
@@ -195,6 +195,8 @@ function saveOrder() {
     var orderDate = document.getElementById("orderDate");
     var orderTime = document.getElementById("orderTime");
     // var eatmode = document.getElementById("EatMode");
+    var pickuptime = document.getElementById("pickuptime");
+    var eventid = document.getElementById("eventid");
     var eatmode = "EatIn";
     var status = document.getElementById("status");
     var message = document.getElementById("message");
@@ -294,10 +296,12 @@ function saveOrder() {
     var paramsjson = JSON.stringify({
         ID: orderID.value,
         ClientName: orderClientName.value,
-        ClientID: userID.innerText,
+        ClientID: userID.value,
         Date: orderDate.value,
         Time: orderTime.value,
         EatMode: eatmode.value,
+        PickUpTime: pickuptime.value,
+        EventID: eventid.value,
         Status: status.value,
         Items: pratosselected
     });

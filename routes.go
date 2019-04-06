@@ -99,6 +99,7 @@ var routes = Routes{
 
 	Route{"activityadd", "POST", "/activityadd", activityadd},
 	Route{"activityupdate", "POST", "/activityupdate", activityupdate},
+	Route{"activitydelete", "POST", "/activitydelete", activitydeletemultiple},
 	// -----------------------------------------------------------
 
 	Route{"showcache", "GET", "/showcache", showcache},

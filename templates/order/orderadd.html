@@ -1,55 +1,43 @@
 {{define "listtemplate"}}
 
 <div id="header" class="navbar navbar-left" id="navbar">
-    {{ if eq .Info.IsAdmin "Yes" }}
-        <a href="/" class="btn btn-md btn-danger">Home</a>
-
-        <a href="/dishlistpictures" class="btn btn-md btn-success">Menu</a>
-        <a href="/orderlist" class="btn btn-md btn-success ">Orders</a>
-        <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
-        <a href="/activitylist" class="btn btn-md btn-success ">Activities</a>
-        <a href="/instructions" class="btn btn-md btn-success">Instructions</a>
-
-        <a href="/showcache" class="btn btn-md btn-success ">Show Cache</a>
-        <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
-    {{ else }}
-        <a href="/" class="btn btn-md btn-success ">Home</a>
-        <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
-        <a href="/orderlist" class="btn btn-md btn-success">Orders</a>
-        <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
-    {{ end }}
-
-
-    </div>
+    <a href="/" class="btn btn-md btn-danger">Home</a>
+    <a href="/orderlist" class="btn btn-md btn-success ">Back</a>
+</div>
 <p/>
 
-<h3>{{ .Info.Name }} - {{ .Info.UserName }}</h3>
+<h4>{{ .Info.Name }} - {{ .Info.UserName }}</h4>
 
-<br>Email - User ID:<br>
-<label for="userID" id="userID" class="btn btn-md btn-success" >{{ .Info.UserID }}</label>
+Event:<br>
+<input type="text" id="eventid" name="eventid" value="{{ .Info.EventID }}" readonly>
+
+<br>User ID:<br>
+<input type="text" id="userID" name="userID" value="{{ .Info.UserID }}" size="30" style="text-align:left;" readonly>
+
 <br>Order Name:<br>
 <input type="text" id="orderClientName" name="orderClientName" value="" onblur="getdatetime()" required placeholder="Name for the order">
-<br>Date:<br>
-<input type="date" id="orderDate" name="orderDate" value="" readonly>
-<br>Time:<br>
-<input type="text" id="orderTime" name="orderTime" value="" readonly>
-<br> Status:<br>
-<input type="text" id="status" name="status" value="Not Placed" class="btn btn-md btn-success">
 
-<!-- <br> Delivery, Pick-up or Eat-in:<br>
-<select name="EatMode" id="EatMode" value="Eatin" readonly>
-    <option value="Eatin">Eat-in</option>
-    <option value="Delivery">Delivery</option>
-    <option value="Takeaway">Take away</option>
+<br>Pick-up Time<br>
+<select name="pickuptime" id="pickuptime">
+    <option value="1100AM">11:00AM</option>
+    <option value="1200PM">12:00PM</option>
+    <option value="0100PM">01:00PM</option>
+    <option value="0200PM">02:00PM</option>
+    <option value="0300PM">03:00PM</option>
+    <option value="0400PM">04:00PM</option>
+    <option value="NotSure">NotSure</option>
 </select>
-<br> -->
 
-<h2>Select your options below:</h2>
+<br>
+
+<h4>Select your options below:</h4>
 <select name="pratoname" id="pratoname">
         {{range .Pratos }}
             <option value={{.Name}}>{{ .Name }} - {{ .Price }}</option>
         {{end}}
         </select>
+
+<h4>Qty:</h4>
 
 <select name="pratoqtd" id="pratoqtd">
             <option value="1">1</option>
@@ -62,12 +50,10 @@
             <option value="8">8</option>
             <option value="9">9</option>
         </select>
-<br><br>
 
-
-<button onclick="addNewItem() ">Add</button>
+<button onclick="addNewItem()" style="height:40px;width:125px">Add</button>
 <!-- <button onclick="removeSelectedRows() ">Remove Item</button> -->
-<button onclick="newOrder() ">New Order</button>
+<!-- <button onclick="newOrder() ">New Order</button> -->
 
 <p/>
 <br>Order Number:<br>
@@ -93,8 +79,14 @@
 <button onclick="saveOrder() ">Place Order</button>
 <!-- <button onclick="saveOrder2() ">Place Order</button> -->
 
-
 <p/>
+
+<br>Date/Time Placed:<br>
+<input type="text" id="orderDate" name="orderDate" value="" size="5" readonly>
+<input type="text" id="orderTime" name="orderTime" value="" size="5" style="text-align:left;" readonly>
+<br> Status:<br>
+<input type="text" id="status" name="status" value="Not Placed" class="btn btn-md btn-success">
+
 
 <br> Message:<br>
 <textarea rows="4" cols="50" id="message">

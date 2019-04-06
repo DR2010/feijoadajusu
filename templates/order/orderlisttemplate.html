@@ -8,7 +8,7 @@
         <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
         <a href="/activitylist" class="btn btn-md btn-success ">Activities</a>
         {{ end }}
-    <a href="/instructions" class="btn btn-md btn-success">Instructions</a>
+    <!-- <a href="/instructions" class="btn btn-md btn-success">Instructions</a> -->
 
 </div>
 <p/>
@@ -17,6 +17,7 @@
     <meta http-equiv="refresh" content="30">
     <div id="header" class="navbar navbar-left">
     
+    <button type="submit" formaction="/orderadddisplay" value="Add" class="btn btn-md btn-success">Place Order</button>
     {{if eq .Info.IsAdmin "Yes" }}
         <button type="submit" formaction="/orderlist" >Open</button>
         <button type="submit" formaction="/orderliststatus?status=Placed">Placed</button>
@@ -25,11 +26,10 @@
         <button type="submit" formaction="/orderliststatus?status=Cancelled">Cancelled</button>
         <button type="submit" formaction="/orderliststatus?status=PayLater">Pay Later</button>
     {{ end }}
-    <button type="submit" formaction="/orderadddisplay" value="Add" class="btn btn-md btn-success">Place Order</button>
 
     </div>
-    <h2>{{ .Info.Name }} - {{ .Info.UserID }} - {{ .Info.UserName }}</h2>  
-    <h2>Total: {{ .Info.Total }}</h2>  
+    <h3>{{ .Info.Name }} - {{ .Info.UserID }} - {{ .Info.UserName }}</h3>  
+    <h3>Total: {{ .Info.Total }}</h3>  
     <div style="float:left;" class="table-responsive">
         <p>
             <table class="table table-striped table-bordered">

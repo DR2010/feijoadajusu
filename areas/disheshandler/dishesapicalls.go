@@ -232,7 +232,6 @@ func DishupdateAPI(dishUpdate dishes.Dish) commonstruct.Resultado {
 
 	mongodbvar := new(commonstruct.DatabaseX)
 
-	// mongodbvar.APIServer, _ = redisclient.Get(sysid + "MSAPIdishesIPAddress").Result()
 	mongodbvar.APIServer = helper.Getvaluefromcache("MSAPIdishesIPAddress")
 
 	apiURL := mongodbvar.APIServer
@@ -309,8 +308,6 @@ func DishDeleteMultipleAPI(dishestodelete []string) commonstruct.Resultado {
 
 	mongodbvar := new(commonstruct.DatabaseX)
 
-	// mongodbvar.APIServer, _ = redisclient.Get("Web.APIServer.IPAddress").Result()
-	// mongodbvar.APIServer, _ = redisclient.Get(sysid + "MSAPIdishesIPAddress").Result()
 	mongodbvar.APIServer = helper.Getvaluefromcache("MSAPIdishesIPAddress")
 
 	apiURL := mongodbvar.APIServer

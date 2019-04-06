@@ -1,46 +1,33 @@
 {{define "listtemplate"}}
 
 <div id="header" class="navbar navbar-left" id="navbar">
-        {{ if eq .Info.IsAdmin "Yes" }}
-        <a href="/" class="btn btn-md btn-danger">Home</a>
-        <a href="/orderlist" class="btn btn-md btn-success ">Orders</a>
-        <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
-        <a href="/dishlist" class="btn btn-md btn-success ">Dishes</a>
-        <a href="/showcache" class="btn btn-md btn-success ">Show Cache</a>
-        <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
-    {{ else }}
-        <a href="/" class="btn btn-md btn-success ">Home</a>
-        <a href="/dishlistpictures" class="btn btn-md btn-success ">Menu</a>
-        <a href="/orderlist" class="btn btn-md btn-success">Orders</a>
-        <a href="/logout" class="btn btn-md btn-warning ">Logout</a> 
-    {{ end }}
-
-
-
-
+    <a href="/" class="btn btn-md btn-danger">Home</a>
+    <a href="/orderlist" class="btn btn-md btn-success ">Back</a>
 </div>
 <p/>
 
-<h2>{{ .Info.Name }} - {{ .OrderItem.ClientName }} - {{.Info.UserID }}</h2>
+<h4>{{ .Info.Name }} - {{ .OrderItem.ClientName }} - {{ .Info.UserID }}</h4>
 
-<br>Order Number - User ID:<br>
-<input type="text" id="orderID" name="orderID" value="{{ .OrderItem.ID }} " readonly class="btn btn-md btn-primary">
-<p/>
-<br>Order Status:<br>
+Event:<br>
+<input type="text" id="eventID" name="eventID" value="{{ .OrderItem.EventID }}" readonly>
+
+<br>
+<br>Order Number:<br>
+<input type="text" id="orderID" name="orderID" value="{{ .OrderItem.ID }} " size="5" readonly class="btn btn-md btn-primary">
 
 {{if eq .OrderItem.Status "Placed" }}
-    <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" readonly class="btn btn-md btn-danger">
+    <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" size="5" readonly class="btn btn-md btn-danger">
 {{ else }}
     {{if eq .OrderItem.Status "Ready" }}
-    <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" readonly class="btn btn-md btn-success">
+    <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" size="5" readonly class="btn btn-md btn-success">
     {{ else }}
         {{if eq .OrderItem.Status "Completed" }}
-        <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" readonly class="btn btn-md btn-primary">
+        <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" size="5" readonly class="btn btn-md btn-primary">
         {{ else }}
             {{if eq .OrderItem.Status "Cancelled" }}
-            <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" readonly class="btn btn-md btn-danger">
+            <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" size="5" readonly class="btn btn-md btn-danger">
             {{ else }}
-            <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" readonly class="btn btn-md btn-warning">
+            <input type="text" id="status" name="status" value="{{ .OrderItem.Status }}" size="5" readonly class="btn btn-md btn-warning">
             {{ end }}
         {{ end }}
     {{ end }}
@@ -51,6 +38,11 @@
 <input type="text" id="orderClientName" name="orderClientName" value="{{ .OrderItem.ClientName }}" readonly>
 <p/>
 
+
+<br>Pick-up Time<br>
+<input type="text" id="pickuptime" name="pickuptime" value="{{ .OrderItem.PickUpTime }}" readonly>
+
+<br>
 <div style="float:left;" class="table-responsive">
     <table class="table table-striped table-bordered">
         <tr>

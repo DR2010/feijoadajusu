@@ -1,9 +1,7 @@
 {{ define "listtemplate" }}
 <form action="Submit" method="POST" />
 
-    <myHero>
-        <h3>{{ .Info.Name }}</h3>
-    </myHero>
+    <h3>{{ .Info.Name }}</h3>
     <div id="header" class="navbar navbar-left">
         <button type="submit" formaction="/orderadddisplay" value="Add">Add Order</button>
         <button type="submit" formaction="/orderviewdisplay" value="View">View Order</button> 

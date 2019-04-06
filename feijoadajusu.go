@@ -531,6 +531,43 @@ func activityupdatedisplay(httpresponsewriter http.ResponseWriter, httprequest *
 	activitieshandler.LoadDisplayForUpdate(httpresponsewriter, httprequest, credentials)
 }
 
+func activitydeletemultiple(httpresponsewriter http.ResponseWriter, httprequest *http.Request) {
+	// ---------------------------------------------------------------------
+	//        Security - Authorisation Check
+	// ---------------------------------------------------------------------
+	if security.ValidateToken(redisclient, httprequest) == "NotOkToLogin" {
+		http.Redirect(httpresponsewriter, httprequest, "/login", 303)
+		return
+	}
+	// ---------------------------------------------------------------------
+
+	httprequest.ParseForm()
+
+	// Get all selected records
+	selected := httprequest.Form["activities"]
+
+	var numrecsel = len(selected)
+
+	if numrecsel <= 0 {
+		http.Redirect(httpresponsewriter, httprequest, "/activitylist", 301)
+		return
+	}
+
+	ret := commonstruct.Resultado{}
+
+	ret = activitieshandler.ActivityDeleteMultipleAPI(selected)
+
+	if ret.IsSuccessful == "Y" {
+		// http.ServeFile(httpwriter, req, "success.html")
+		http.Redirect(httpresponsewriter, httprequest, "/activitylist", 301)
+		return
+	}
+
+	http.Redirect(httpresponsewriter, httprequest, "/activitylist", 301)
+	return
+
+}
+
 func activityupdate(httpwriter http.ResponseWriter, httprequest *http.Request) {
 
 	// Retornar credentials e passar para a rotina Add below
@@ -543,6 +580,20 @@ func activityupdate(httpwriter http.ResponseWriter, httprequest *http.Request) {
 	}
 
 	activitieshandler.Update(httpwriter, httprequest, redisclient, sysid)
+
+}
+func activitydelete(httpwriter http.ResponseWriter, httprequest *http.Request) {
+
+	// Retornar credentials e passar para a rotina Add below
+	//
+	error, _ := security.ValidateTokenV2(redisclient, httprequest)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, httprequest, "/login", 303)
+		return
+	}
+
+	activitieshandler.Delete(httpwriter, httprequest)
 
 }
 

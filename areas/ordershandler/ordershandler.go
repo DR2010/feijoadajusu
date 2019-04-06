@@ -14,6 +14,7 @@ import (
 	"strconv"
 	"time"
 
+	activity "feijoadajusu/areas/activitieshandler"
 	dish "feijoadajusu/areas/disheshandler"
 	securityhandler "feijoadajusu/areas/securityhandler"
 	models "feijoadajusu/models"
@@ -34,6 +35,8 @@ type ControllerInfo struct {
 	IsAdmin       string //
 	IsAnonymous   string //
 	Total         string
+	EventID       string //
+
 }
 
 // Row is
@@ -337,6 +340,9 @@ func LoadDisplayForAdd(httpwriter http.ResponseWriter, redisclient *redis.Client
 	}
 	items.Info.ApplicationID = credentials.ApplicationID
 	items.Info.IsAdmin = credentials.IsAdmin
+
+	activeactivity := activity.FindActiveAPI()
+	items.Info.EventID = activeactivity.Name
 
 	// Retrieve list of dishes by calling API to get dishes
 	// Always load here. Do not save to cache or leave it in memory since it can be changed anytime

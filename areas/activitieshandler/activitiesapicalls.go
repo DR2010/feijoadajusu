@@ -121,12 +121,12 @@ func APIcallAdd(objInsert activities.Activity) commonstruct.Resultado {
 	resource := "/add"
 
 	data := url.Values{}
-	data.Add("activityname", objInsert.Name)
-	data.Add("activitytype", objInsert.Type)
-	data.Add("activitystatus", objInsert.Status)
-	data.Add("activitydescription", objInsert.Description)
-	data.Add("activitystartdate", objInsert.StartDate)
-	data.Add("activityenddate", objInsert.EndDate)
+	data.Add("name", objInsert.Name)
+	data.Add("type", objInsert.Type)
+	data.Add("status", objInsert.Status)
+	data.Add("description", objInsert.Description)
+	data.Add("startdate", objInsert.StartDate)
+	data.Add("enddate", objInsert.EndDate)
 
 	u, _ := url.ParseRequestURI(apiURL)
 	u.Path = resource
@@ -201,6 +201,50 @@ func FindAPI(objFind string) activities.Activity {
 
 }
 
+// FindActiveAPI is to find the active activity/ event
+func FindActiveAPI() activities.Activity {
+
+	var apiserver string
+	// apiserver, _ = redisclient.Get(sysid + "MSAPIactivitiesIPAddress").Result()
+	apiserver = helper.Getvaluefromcache("MSAPIactivitiesIPAddress")
+
+	urlrequest := apiserver + "/findactive"
+
+	urlrequestencoded, _ := url.ParseRequestURI(urlrequest)
+	url := urlrequestencoded.String()
+
+	var emptydisplay activities.Activity
+
+	// Build the request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		// log.Fatal("NewRequest: ", err)
+		log.Println("FindAPI Error http.NewRequest(GET, url, nil): ", err)
+		return emptydisplay
+	}
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		// log.Fatal("Do: ", err)
+
+		log.Println("FindActiveAPI Error client.Do(req): ", err)
+		return emptydisplay
+	}
+
+	defer resp.Body.Close()
+
+	var activitiesback activities.Activity
+
+	if err := json.NewDecoder(resp.Body).Decode(&activitiesback); err != nil {
+		log.Println(err)
+	}
+
+	return activitiesback
+
+}
+
 // UpdateAPI is
 func UpdateAPI(objUpdate activities.Activity) commonstruct.Resultado {
 
@@ -215,7 +259,7 @@ func UpdateAPI(objUpdate activities.Activity) commonstruct.Resultado {
 	data.Add("name", objUpdate.Name)
 	data.Add("type", objUpdate.Type)
 	data.Add("status", objUpdate.Status)
-	data.Add("descricao", objUpdate.Description)
+	data.Add("description", objUpdate.Description)
 	data.Add("startdate", objUpdate.StartDate)
 	data.Add("enddate", objUpdate.EndDate)
 

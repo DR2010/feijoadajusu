@@ -6,13 +6,6 @@
         <br><b>Type: </b>
         <p/>
         <select name="activitytype" id="activitytype" value="N" readonly>
-
-             {{ if eq .Item.Type "Every Event"}}
-                <option selected="selected">Every Event</option>
-             {{ else }}
-                <option value="Every Event">Every Event</option>
-             {{ end }}
- 
              {{ if eq .Item.Type "Feijoada"}}
                 <option selected="selected">Feijoada</option>
              {{ else }}
@@ -56,17 +49,17 @@
         <br><b>Status: </b>
         <select name="activitystatus" id="activitystatus" value="{{ .Item.Status }}">
             {{ if eq .Item.Status "ACTIVE"}}
-                <option selected="selected">Active</option>
-                <option value="INACTIVE">Inactive</option>
+                <option selected="selected">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
             {{ else }}
-                <option value="ACTIVE">Active</option>
-                <option selected="selected">Inactive</option>
+                <option value="ACTIVE">ACTIVE</option>
+                <option selected="selected">INACTIVE</option>
         {{ end }}
         </select>
         <br>
 
         <p/>
-        <input type="submit" formaction="/activityadd" value="Submit">
+        <input type="submit" formaction="/activityupdate" value="Submit">
         <p/>
     </div>
 </form>

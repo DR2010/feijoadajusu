@@ -6,10 +6,14 @@ package activitieshandler
 
 import (
 	"feijoadajusu/areas/commonstruct"
+	helper "feijoadajusu/areas/helper"
 	models "feijoadajusu/models"
+	"fmt"
 	"html/template"
 	"mongodb/dishes"
 	"net/http"
+	"net/url"
+	"strings"
 
 	"github.com/go-redis/redis"
 )
@@ -162,7 +166,7 @@ func Update(httpwriter http.ResponseWriter, req *http.Request, redisclient *redi
 
 	if ret.IsSuccessful == "Y" {
 		// http.ServeFile(httpwriter, req, "success.html")
-		http.Redirect(httpwriter, req, "/dishlist", 301)
+		http.Redirect(httpwriter, req, "/activitylist", 301)
 		return
 	}
 }
@@ -203,7 +207,7 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 	t, _ := template.ParseFiles("html/index.html", "templates/activity/update.html")
 
 	items := DisplayTemplate{}
-	items.Info.Name = "Activity Add"
+	items.Info.Name = "Update Add"
 	items.Info.Currency = "SUMMARY"
 	items.Info.UserID = credentials.UserID
 	items.Info.Application = credentials.ApplicationID
@@ -223,65 +227,47 @@ func LoadDisplayForUpdate(httpwriter http.ResponseWriter, httprequest *http.Requ
 
 }
 
-// LoadDisplayForDelete is
-func LoadDisplayForDelete(httpwriter http.ResponseWriter, httprequest *http.Request, redisclient *redis.Client, sysid string) {
+// ActivityDeleteMultipleAPI is
+func ActivityDeleteMultipleAPI(activitiestodelete []string) commonstruct.Resultado {
 
-	httprequest.ParseForm()
+	mongodbvar := new(commonstruct.DatabaseX)
 
-	// Get all selected records
-	activityselected := httprequest.Form["activities"]
+	mongodbvar.APIServer = helper.Getvaluefromcache("MSAPIactivitiesIPAddress")
 
-	var numrecsel = len(activityselected)
+	apiURL := mongodbvar.APIServer
+	resource := "/delete"
 
-	if numrecsel <= 0 {
-		http.Redirect(httpwriter, httprequest, "/activitylist", 301)
-		return
+	data := url.Values{}
+	data.Add("activityname", activitiestodelete[0])
+
+	u, _ := url.ParseRequestURI(apiURL)
+	u.Path = resource
+	urlStr := u.String()
+
+	body := strings.NewReader(data.Encode())
+	resp2, _ := http.Post(urlStr, "application/x-www-form-urlencoded", body)
+
+	fmt.Println("resp2.Status:" + resp2.Status)
+
+	var emptydisplay commonstruct.Resultado
+	emptydisplay.ErrorCode = resp2.Status
+
+	if resp2.Status == "200 OK" {
+		emptydisplay.IsSuccessful = "Y"
 	}
 
-	type ControllerInfo struct {
-		Name    string
-		Message string
-	}
-	type Row struct {
-		Description []string
-	}
-	type DisplayTemplate struct {
-		Info       ControllerInfo
-		FieldNames []string
-		Rows       []Row
-		Item       models.Activity
-	}
-
-	// create new template
-	t, _ := template.ParseFiles("html/index.html", "templates/activitydelete.html")
-
-	items := DisplayTemplate{}
-	items.Info.Name = "Activity Delete"
-
-	items.Item = models.Activity{}
-	items.Item.Name = activityselected[0]
-
-	var activityfind = models.Activity{}
-	var activityname = items.Item.Name
-
-	activityfind = FindAPI(activityname)
-	items.Item = activityfind
-
-	t.Execute(httpwriter, items)
-
-	return
-
+	return emptydisplay
 }
 
 // Delete dish sent
-func Delete(redisclient *redis.Client, httpwriter http.ResponseWriter, req *http.Request, sysid string) {
+func Delete(httpwriter http.ResponseWriter, req *http.Request) {
 
 	objaction := models.Activity{}
 
 	objaction.Name = req.FormValue("activityname") // This is the key, must be unique
 	objaction.Type = req.FormValue("activitytype")
-	objaction.Description = req.FormValue("activitydescription")
 	objaction.Status = req.FormValue("activitystatus")
+	objaction.Description = req.FormValue("activitydescription")
 	objaction.StartDate = req.FormValue("activitystartdate")
 	objaction.EndDate = req.FormValue("activityenddate")
 
@@ -289,7 +275,7 @@ func Delete(redisclient *redis.Client, httpwriter http.ResponseWriter, req *http
 
 	if ret.IsSuccessful == "Y" {
 		// http.ServeFile(httpwriter, req, "success.html")
-		http.Redirect(httpwriter, req, "/dishlist", 301)
+		http.Redirect(httpwriter, req, "/activitylist", 301)
 		return
 	}
 }

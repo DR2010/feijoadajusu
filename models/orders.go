@@ -24,6 +24,7 @@ type Order struct {
 	TimeCompleted    string        // Open, Completed, Cancelled
 	TimeCancelled    string        // Open, Completed, Cancelled
 	EatMode          string        // EatIn, TakeAway, Delivery
+	PickUpTime       string        // EatIn, TakeAway, Delivery
 	TotalGeral       string        // Delivery phone number
 	Items            []Item
 }
