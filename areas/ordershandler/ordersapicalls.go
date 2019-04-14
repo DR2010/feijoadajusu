@@ -295,6 +295,45 @@ func APICallListStatus(sysid string, redisclient *redis.Client, credentials mode
 	return list
 }
 
+// APICallListStatusActivity is completed
+func APICallListStatusActivity(sysid string, redisclient *redis.Client, credentials models.Credentials, status string, activity string) []models.Order {
+
+	var apiserver string
+	var emptydisplay []models.Order
+
+	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
+
+	urlrequest := apiserver + "/orderstatusactivity?status=" + status + "&activity=" + activity
+
+	url := fmt.Sprintf(urlrequest)
+
+	// Build the request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Fatal("NewRequest: ", err)
+		return emptydisplay
+	}
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal("Do: ", err)
+		return emptydisplay
+	}
+
+	defer resp.Body.Close()
+
+	// return list of orders
+	var list []models.Order
+
+	if err := json.NewDecoder(resp.Body).Decode(&list); err != nil {
+		log.Println(err)
+	}
+
+	return list
+}
+
 // APICallAdd is
 func APICallAdd(sysid string, redisclient *redis.Client, bodybyte []byte) RespAddOrder {
 

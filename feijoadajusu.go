@@ -372,6 +372,9 @@ func orderlistcompleted(httpwriter http.ResponseWriter, req *http.Request) {
 	//
 	if credentials.IsAdmin == "Yes" {
 		ordershandler.ListCompleted(httpwriter, redisclient, credentials, sysid)
+
+		// ordershandler.ListStatusActivity(req, httpwriter, redisclient, credentials, sysid)
+
 	}
 
 }
@@ -389,6 +392,23 @@ func orderliststatus(httpwriter http.ResponseWriter, req *http.Request) {
 	//
 	if credentials.IsAdmin == "Yes" {
 		ordershandler.ListStatus(req, httpwriter, redisclient, credentials, sysid)
+	}
+
+}
+
+func orderliststatusactivity(httpwriter http.ResponseWriter, req *http.Request) {
+
+	error, credentials := security.ValidateTokenV2(redisclient, req)
+
+	if error == "NotOkToLogin" {
+		http.Redirect(httpwriter, req, "/login", 303)
+		return
+	}
+
+	// Only Admin
+	//
+	if credentials.IsAdmin == "Yes" {
+		ordershandler.ListStatusActivity(req, httpwriter, redisclient, credentials, sysid)
 	}
 
 }

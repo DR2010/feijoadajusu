@@ -122,19 +122,29 @@ func ListV2(httpwriter http.ResponseWriter, redisclient *redis.Client, credentia
 	items.Info.ApplicationID = credentials.ApplicationID
 	items.Info.IsAdmin = credentials.IsAdmin
 
-	var numberoffields = 5
+	activeactivity := activity.FindActiveAPI()
+	items.Info.EventID = activeactivity.Name
+
+	var numberoffields = 6
 
 	// Set colum names
+	// Not used, template has the column names
+	// --------------------------------------------------
 	items.FieldNames = make([]string, numberoffields)
 	items.FieldNames[0] = "Order ID"
 	items.FieldNames[1] = "Name"
 	items.FieldNames[2] = "Date"
 	items.FieldNames[3] = "Status"
-	items.FieldNames[4] = "Mode"
+	items.FieldNames[4] = "Total"   // it was Mode !?
+	items.FieldNames[5] = "EventID" // it was Mode !?
 
 	// Remove unwanted statuses
 	var count = 0
 	for i := 0; i < len(list); i++ {
+
+		if list[i].EventID != items.Info.EventID {
+			continue
+		}
 
 		if list[i].Status == "Cancelled" || list[i].Status == "PayLater" {
 			continue
@@ -151,7 +161,13 @@ func ListV2(httpwriter http.ResponseWriter, redisclient *redis.Client, credentia
 	items.Orders = make([]models.Order, count)
 
 	var cnt = 0
+	var tot = 0.00
+	// for i := 0; i < len(list); i++ {
 	for i := 0; i < len(list); i++ {
+
+		if list[i].EventID != items.Info.EventID {
+			continue
+		}
 
 		if list[i].Status == "Cancelled" || list[i].Status == "PayLater" {
 			continue
@@ -164,10 +180,16 @@ func ListV2(httpwriter http.ResponseWriter, redisclient *redis.Client, credentia
 		items.Rows[cnt].Description[2] = list[i].Date
 		items.Rows[cnt].Description[3] = list[i].Status
 		items.Rows[cnt].Description[4] = list[i].EatMode
+		items.Rows[cnt].Description[5] = list[i].EventID
 
 		items.Orders[cnt] = list[i]
 		cnt++
+
+		price, _ := strconv.ParseFloat(list[i].TotalGeral, 64)
+		tot = tot + price
 	}
+
+	items.Info.Total = strconv.FormatFloat(tot, 'f', 2, 64)
 
 	t.Execute(httpwriter, items)
 }
@@ -257,12 +279,16 @@ func ListCompleted(httpwriter http.ResponseWriter, redisclient *redis.Client, cr
 	items.Info.ApplicationID = credentials.ApplicationID
 	items.Info.IsAdmin = credentials.IsAdmin
 
+	activeactivity := activity.FindActiveAPI()
+	items.Info.EventID = activeactivity.Name
+
 	// Set rows to be displayed
 	items.Rows = make([]Row, len(list))
 	items.Orders = make([]models.Order, len(list))
 
 	var tot = 0.00
 	for i := 0; i < len(list); i++ {
+
 		items.Orders[i] = list[i]
 		price, _ := strconv.ParseFloat(list[i].TotalGeral, 64)
 		tot = tot + price
@@ -320,6 +346,66 @@ func ListStatus(httprequest *http.Request, httpwriter http.ResponseWriter, redis
 
 		items.Orders[i] = list[i]
 	}
+
+	t.Execute(httpwriter, items)
+}
+
+// ListStatusActivity = assemble results of API call to dish list
+func ListStatusActivity(httprequest *http.Request, httpwriter http.ResponseWriter, redisclient *redis.Client, credentials models.Credentials, sysid string) {
+
+	status := httprequest.URL.Query().Get("status")
+	// activity := httprequest.URL.Query().Get("activity")
+
+	activeactivity := activity.FindActiveAPI()
+	activity := activeactivity.Name
+
+	// create new template
+	t, _ := template.ParseFiles("templates/order/indexlistrefresh.html", "templates/order/orderlisttemplate.html")
+
+	// Get list of orders (api call)
+	//
+	var list = APICallListStatusActivity(sysid, redisclient, credentials, status, activity)
+
+	// Assemble the display structure for html template
+	//
+	items := DisplayTemplate{}
+	items.Info.Name = "Order List"
+	items.Info.UserID = credentials.UserID
+	items.Info.UserName = credentials.Name
+	items.Info.ApplicationID = credentials.ApplicationID
+	items.Info.IsAdmin = credentials.IsAdmin
+
+	var numberoffields = 5
+
+	// Set colum names
+	items.FieldNames = make([]string, numberoffields)
+	items.FieldNames[0] = "Order ID"
+	items.FieldNames[1] = "Name"
+	items.FieldNames[2] = "Date"
+	items.FieldNames[3] = "Status"
+	items.FieldNames[4] = "Mode"
+
+	// Set rows to be displayed
+	items.Rows = make([]Row, len(list))
+	items.Orders = make([]models.Order, len(list))
+	// items.RowID = make([]int, len(dishlist))
+
+	var tot = 0.00
+	for i := 0; i < len(list); i++ {
+		items.Rows[i] = Row{}
+		items.Rows[i].Description = make([]string, numberoffields)
+		items.Rows[i].Description[0] = list[i].ID
+		items.Rows[i].Description[1] = list[i].ClientName
+		items.Rows[i].Description[2] = list[i].Date
+		items.Rows[i].Description[3] = list[i].Status
+		items.Rows[i].Description[4] = list[i].EatMode
+
+		items.Orders[i] = list[i]
+
+		price, _ := strconv.ParseFloat(list[i].TotalGeral, 64)
+		tot = tot + price
+	}
+	items.Info.Total = strconv.FormatFloat(tot, 'f', 2, 64)
 
 	t.Execute(httpwriter, items)
 }
