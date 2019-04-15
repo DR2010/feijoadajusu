@@ -6,10 +6,10 @@
         <br><b>Availability: </b>
         <p/>
         <select name="dishactivitytype" id="dishactivitytype" >
-            {{ if eq .DishItem.ActivityType "Every Event"}}
+            {{ if eq .DishItem.ActivityType "EveryEvent"}}
                 <option selected="selected">Every Event</option>
             {{ else }}
-                <option value="Every Event">Every Event</option>
+                <option value="EveryEvent">Every Event</option>
             {{ end }}
 
             {{ if eq .DishItem.ActivityType "Feijoada"}}
@@ -18,10 +18,10 @@
                 <option value="Feijoada">Feijoada</option>
             {{ end }}
 
-            {{ if eq .DishItem.ActivityType "Caldo Verde"}}
+            {{ if eq .DishItem.ActivityType "CaldoVerde"}}
                 <option selected="selected">Caldo Verde</option>
             {{ else }}
-                <option value="Caldo Verde">Caldo Verde</option>
+                <option value="CaldoVerde">Caldo Verde</option>
             {{ end }}
 
             {{ if eq .DishItem.ActivityType "Picanha"}}
