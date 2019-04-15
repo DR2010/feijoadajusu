@@ -303,7 +303,10 @@ func APICallListStatusActivity(sysid string, redisclient *redis.Client, credenti
 
 	apiserver, _ = redisclient.Get(sysid + "MSAPIordersIPAddress").Result()
 
-	urlrequest := apiserver + "/orderstatusactivity?status=" + status + "&activity=" + activity
+	// urlrequest := apiserver + "/orderstatusactivity?status=" + status + "&activity=" + url.PathEscape(activity)
+
+	escapeactivity := url.QueryEscape(activity)
+	urlrequest := apiserver + "/orderstatusactivity?status=" + status + "&activity=" + escapeactivity
 
 	url := fmt.Sprintf(urlrequest)
 

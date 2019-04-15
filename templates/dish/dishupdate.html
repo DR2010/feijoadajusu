@@ -3,6 +3,40 @@
 <h1>Update Dish</h1>
 <form method="POST" action="/dishupdate">
     <div>
+        <br><b>Availability: </b>
+        <p/>
+        <select name="dishactivitytype" id="dishactivitytype" >
+            {{ if eq .DishItem.ActivityType "Every Event"}}
+                <option selected="selected">Every Event</option>
+            {{ else }}
+                <option value="Every Event">Every Event</option>
+            {{ end }}
+
+            {{ if eq .DishItem.ActivityType "Feijoada"}}
+                <option selected="selected">Feijoada</option>
+            {{ else }}
+                <option value="Feijoada">Feijoada</option>
+            {{ end }}
+
+            {{ if eq .DishItem.ActivityType "Caldo Verde"}}
+                <option selected="selected">Caldo Verde</option>
+            {{ else }}
+                <option value="Caldo Verde">Caldo Verde</option>
+            {{ end }}
+
+            {{ if eq .DishItem.ActivityType "Picanha"}}
+                <option selected="selected">Picanha</option>
+            {{ else }}
+                <option value="Picanha">Picanha</option>
+            {{ end }}
+
+            {{ if eq .DishItem.ActivityType "Not Available"}}
+                <option selected="selected">Not Available</option>
+            {{ else }}
+                <option value="Not Available">Not Available</option>
+            {{ end }}
+        </select>
+        <br>
 
         <br><b>Dish Type: </b>
         <p/>
